@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 public class GameController {
     private static final GameController instance = new GameController();
-    private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");;
+    private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
     private final ArrayList<Entity> renderedEntities = new ArrayList<Entity>();
     private double unitWidth;
     private Comparator<Entity> comparator;
