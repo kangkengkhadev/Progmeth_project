@@ -14,9 +14,11 @@ public class GamePanel extends Canvas {
     public GamePanel(double width, double height) {
         super(width, height);
         this.setVisible(true);
+        // Calculate the unit width and padding
         unitWidth = Math.min(width / Config.MAP_X_DIMENSION, height / Config.MAP_Y_DIMENSION);
         xPadding = (width - unitWidth * Config.MAP_X_DIMENSION) / 2.0;
         yPadding = (height - unitWidth * Config.MAP_Y_DIMENSION) / 2.0;
+        // Add event listener
         addEventListener();
     }
 

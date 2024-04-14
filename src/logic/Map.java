@@ -15,6 +15,7 @@ public class Map {
         setCol(col);
         this.mapInfo = new int[row][col];
 
+        // Read the map from the filePath
         try {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream(filePath);
             if (inputStream != null) {

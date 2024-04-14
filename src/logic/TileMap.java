@@ -15,6 +15,7 @@ public class TileMap {
         double yPadding = GameController.getInstance().getGamePanel().getYPadding();
         double unitWidth = GameController.getInstance().getGamePanel().getUnitWidth();
 
+        // Iterate through the map info and render the walls
         for (int i = 0; i < map.getRow(); i++) {
             for (int j = 0; j < map.getCol(); j++) {
                 int mapCode = map.getMapInfo()[i][j];
@@ -62,10 +63,15 @@ public class TileMap {
                     img = wallSolidSprite;
                 }
 
+                // Save the current transformation matrix
                 gc.save();
+                // Translate the canvas to the center of the unit
                 gc.translate(xPadding + j * unitWidth + unitWidth / 2, yPadding + i * unitWidth + unitWidth / 2);
+                // Rotate the canvas based on the rotation
                 gc.rotate(rotation);
+                // Draw the image at the center of the unit
                 gc.drawImage(img, -unitWidth / 2, -unitWidth / 2, unitWidth, unitWidth);
+                // Restore the transformation matrix for the next iteration
                 gc.restore();
             }
         }
