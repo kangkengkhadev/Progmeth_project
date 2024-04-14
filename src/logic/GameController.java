@@ -12,23 +12,19 @@ public class GameController {
     private static final GameController instance = new GameController();
     private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
     private final ArrayList<Entity> renderedEntities = new ArrayList<Entity>();
-    private double unitWidth;
     private Comparator<Entity> comparator;
-    private double xPadding;
-    private double yPadding;
     private Pacman pacman;
+    private GamePanel gamePanel;
 
     public void start(GraphicsContext gc) {
-        unitWidth = Math.min(gc.getCanvas().getWidth() / Config.MAP_X_DIMENSION, gc.getCanvas().getHeight() / Config.MAP_Y_DIMENSION);
+        gamePanel = (GamePanel)gc.getCanvas();
         comparator = (Entity p, Entity q) -> {
             if (p.getZIndex() == q.getZIndex()) {
                 return 0;
             }
             return (p.getZIndex() > q.getZIndex() ? 1 : -1);
         };
-        xPadding = (gc.getCanvas().getWidth() - unitWidth * Config.MAP_X_DIMENSION) / 2.0;
-        yPadding = (gc.getCanvas().getHeight() - unitWidth * Config.MAP_Y_DIMENSION) / 2.0;
-        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, unitWidth, "Pacman.PNG");
+        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "Pacman.PNG");
         addNewEntity(pacman);
     }
 
@@ -64,15 +60,7 @@ public class GameController {
         return instance;
     }
 
-    public double getUnitWidth() {
-        return this.unitWidth;
-    }
-
-    public double getXPadding() {
-        return xPadding;
-    }
-
-    public double getYPadding() {
-        return yPadding;
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 }

@@ -11,9 +11,9 @@ public class TileMap {
     public static Image wallTerminalSprite = new Image(ClassLoader.getSystemResource("wall_terminal.png").toString());
 
     public static void renderMap(GraphicsContext gc, Map map) {
-        double xPadding = GameController.getInstance().getXPadding();
-        double yPadding = GameController.getInstance().getYPadding();
-        double unitWidth = GameController.getInstance().getUnitWidth();
+        double xPadding = GameController.getInstance().getGamePanel().getXPadding();
+        double yPadding = GameController.getInstance().getGamePanel().getYPadding();
+        double unitWidth = GameController.getInstance().getGamePanel().getUnitWidth();
 
         for (int i = 0; i < map.getRow(); i++) {
             for (int j = 0; j < map.getCol(); j++) {
