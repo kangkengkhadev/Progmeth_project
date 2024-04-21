@@ -19,7 +19,7 @@ public class Pacman extends Entity {
     }
     @Override
     public int getZIndex() {
-        return 0;
+        return Config.PACMAN_Z_INDEX;
     }
 
     @Override

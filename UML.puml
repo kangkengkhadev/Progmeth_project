@@ -1,0 +1,91 @@
+@startuml
+class logic.Pacman {
+- Image sprite
+- double[] velocity
++ <<Create>> Pacman(double,double,double,double,String)
++ int getZIndex()
++ void draw(GraphicsContext)
++ void update(double)
++ void move(double)
+}
+class logic.TileMap {
++ {static} Image wallSolidSprite
++ {static} Image wallParallelSprite
++ {static} Image wallTurnSprite
++ {static} Image wallJunctionSprite
++ {static} Image wallTerminalSprite
+- boolean destroyed
+- Map map
++ <<Create>> TileMap(Map)
++ void draw(GraphicsContext)
++ int getZIndex()
++ void setDestroyed(boolean)
++ boolean isDestroyed()
+}
+class logic.GamePanel {
+- double unitWidth
+- double xPadding
+- double yPadding
++ <<Create>> GamePanel(double,double)
+- void addEventListener()
++ double getUnitWidth()
++ double getXPadding()
++ double getYPadding()
+}
+interface render.Renderable {
+~ int getZIndex()
+~ void draw(GraphicsContext)
+~ boolean isDestroyed()
+}
+class logic.GameController {
+- {static} GameController instance
+- Map map
+- ArrayList<Renderable> renderedEntities
+- Comparator<Renderable> comparator
+- Pacman pacman
+- GamePanel gamePanel
+- TileMap tileMap
++ void start(GraphicsContext)
++ void update(double)
++ void render(GraphicsContext)
+- void addNewEntity(Renderable)
+- void renderEntities(GraphicsContext)
++ {static} GameController getInstance()
++ GamePanel getGamePanel()
+}
+class logic.Map {
+- int[][] mapInfo
+- int row
+- int col
++ <<Create>> Map(int,int,String)
++ int[][] getMapInfo()
++ void setRow(int)
++ int getRow()
++ void setCol(int)
++ int getCol()
+}
+abstract class logic.Entity {
+# double x
+# double y
+# boolean destroyed
+# double width
+# double height
++ <<Create>> Entity(double,double,double,double)
++ void setDestroyed(boolean)
++ boolean isDestroyed()
++ double getX()
++ void setX(double)
++ double getY()
++ void setY(double)
++ double getWidth()
++ void setWidth(double)
++ double getHeight()
++ void setHeight(double)
+}
+
+
+logic.Entity <|-- logic.Pacman
+render.Renderable <|.. logic.TileMap
+javafx.scene.canvas.Canvas <|-- logic.GamePanel
+render.Renderable <|.. logic.Entity
+@enduml

@@ -3,6 +3,7 @@ package logic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import render.Renderable;
 import util.Config;
 
 import java.util.ArrayList;
@@ -11,22 +12,27 @@ import java.util.Comparator;
 public class GameController {
     private static final GameController instance = new GameController();
     private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
-    private final ArrayList<Entity> renderedEntities = new ArrayList<Entity>();
-    private Comparator<Entity> comparator;
+    private final ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
+    private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
+    private TileMap tileMap;
 
     public void start(GraphicsContext gc) {
         // Get the game panel
         gamePanel = (GamePanel)gc.getCanvas();
         // Set the comparator for sorting entities
-        comparator = (Entity p, Entity q) -> {
+        comparator = (Renderable p, Renderable q) -> {
             // Higher zIndex means the entity is rendered on top
             if (p.getZIndex() == q.getZIndex()) {
                 return 0;
             }
-            return (p.getZIndex() > q.getZIndex() ? 1 : -1);
+            return (p.getZIndex() > q.getZIndex() ? -1 : 1);
         };
+        // Create the tile map
+        tileMap = new TileMap(map);
+        // Add the tile map to the list of rendered entities
+        addNewEntity(tileMap);
         // Create the pacman
         pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "Pacman.PNG");
         // Add the pacman to the list of rendered entities
@@ -46,13 +52,12 @@ public class GameController {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         // Render the map
-        TileMap.renderMap(gc, map);
         renderEntities(gc);
     }
 
-    private void addNewEntity(Entity entity) {
+    private void addNewEntity(Renderable rendererObj) {
         // Add the entity to the list of rendered entities
-        renderedEntities.add(entity);
+        renderedEntities.add(rendererObj);
         // Sort the list of rendered entities
         renderedEntities.sort(comparator);
     }

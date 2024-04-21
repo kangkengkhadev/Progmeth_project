@@ -2,15 +2,25 @@ package logic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import render.Renderable;
+import util.Config;
 
-public class TileMap {
-    public static Image wallSolidSprite = new Image(ClassLoader.getSystemResource("wall_solid.png").toString());
-    public static Image wallParallelSprite = new Image(ClassLoader.getSystemResource("wall_parallel.png").toString());
-    public static Image wallTurnSprite = new Image(ClassLoader.getSystemResource("wall_turn.png").toString());
-    public static Image wallJunctionSprite = new Image(ClassLoader.getSystemResource("wall_junction.png").toString());
-    public static Image wallTerminalSprite = new Image(ClassLoader.getSystemResource("wall_terminal.png").toString());
+public class TileMap implements Renderable {
+    private static Image wallSolidSprite = new Image(ClassLoader.getSystemResource("wall_solid.png").toString());
+    private static Image wallParallelSprite = new Image(ClassLoader.getSystemResource("wall_parallel.png").toString());
+    private static Image wallTurnSprite = new Image(ClassLoader.getSystemResource("wall_turn.png").toString());
+    private static Image wallJunctionSprite = new Image(ClassLoader.getSystemResource("wall_junction.png").toString());
+    private static Image wallTerminalSprite = new Image(ClassLoader.getSystemResource("wall_terminal.png").toString());
+    private boolean destroyed;
+    private Map map;
 
-    public static void renderMap(GraphicsContext gc, Map map) {
+    public TileMap(Map map) {
+        this.map = map;
+        setDestroyed(false);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
         double xPadding = GameController.getInstance().getGamePanel().getXPadding();
         double yPadding = GameController.getInstance().getGamePanel().getYPadding();
         double unitWidth = GameController.getInstance().getGamePanel().getUnitWidth();
@@ -75,5 +85,19 @@ public class TileMap {
                 gc.restore();
             }
         }
+    }
+
+    @Override
+    public int getZIndex() {
+        return Config.TILE_MAP_Z_INDEX;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return false;
     }
 }

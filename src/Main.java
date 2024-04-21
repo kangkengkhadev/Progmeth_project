@@ -1,17 +1,12 @@
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import logic.GameController;
 import logic.GamePanel;
 import util.Config;
-import util.InputUtility;
 
 public class Main extends Application {
     long startTime = System.nanoTime();

@@ -8,10 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/Pacman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Pacman.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/TileMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/TileMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Config.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +47,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/Weerawat/university/progmeth/Labs/Progmeth_Lab6_2023_2_6633232521_Weerawat&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/Weerawat/university/progmeth/project&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
