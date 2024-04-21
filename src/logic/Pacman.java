@@ -8,14 +8,14 @@ import util.InputUtility;
 
 public class Pacman extends Entity {
     private Image sprite;
-    private double[] velocity;
+    private Vector2D velocity;
 
     public Pacman(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height);
         // Load the image
         sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());
         // Initialize the velocity to 0 in both x and y direction
-        velocity = new double[] {0, 0};
+        velocity = new Vector2D(0, 0);
     }
     @Override
     public int getZIndex() {
@@ -32,17 +32,17 @@ public class Pacman extends Entity {
         // Receive the input from the player
         // Update the velocity based on the input
         if (InputUtility.getKeyPressed(KeyCode.W)) {
-            velocity[0] = 0;
-            velocity[1] = -Config.PACMAN_SPEED;
+            velocity.setX(0);
+            velocity.setY(-Config.PACMAN_SPEED);
         } else if (InputUtility.getKeyPressed(KeyCode.A)) {
-            velocity[0] = -Config.PACMAN_SPEED;
-            velocity[1] = 0;
+            velocity.setX(-Config.PACMAN_SPEED);
+            velocity.setY(0);
         } else if (InputUtility.getKeyPressed(KeyCode.S)) {
-            velocity[0] = 0;
-            velocity[1] = Config.PACMAN_SPEED;
+            velocity.setX(0);
+            velocity.setY(Config.PACMAN_SPEED);
         } else if (InputUtility.getKeyPressed(KeyCode.D)) {
-            velocity[0] = Config.PACMAN_SPEED;
-            velocity[1] = 0;
+            velocity.setX(Config.PACMAN_SPEED);
+            velocity.setY(0);
         }
 
         // Move the pacman based on the velocity
@@ -50,7 +50,7 @@ public class Pacman extends Entity {
     }
 
     public void move(double delta) {
-        setX(getX() + velocity[0] * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
-        setY(getY() + velocity[1] * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
+        setX(getX() + velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
+        setY(getY() + velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
     }
 }
