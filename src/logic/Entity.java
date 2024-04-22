@@ -3,15 +3,14 @@ package logic;
 import render.Renderable;
 
 public abstract class Entity implements Renderable {
-    protected double x;
-    protected double y;
+
+    protected Vector2D position;
     protected boolean destroyed;
     protected double width;
     protected double height;
 
     public Entity(double x, double y, double width, double height) {
-        setX(x);
-        setY(y);
+        position = new Vector2D(x, y);
         setDestroyed(false);
         setWidth(width);
         setHeight(height);
@@ -26,20 +25,20 @@ public abstract class Entity implements Renderable {
         return destroyed;
     }
 
-    public double getX() {
-        return x;
+    public Vector2D getPosition() {
+        return position;
     }
 
     public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
+        position.setX(x);
     }
 
     public void setY(double y) {
-        this.y = y;
+        position.setY(y);
+    }
+
+    public Vector2D getCentroid() {
+        return new Vector2D(position.getX() + 0.5, position.getY() + 0.5);
     }
 
     public double getWidth() {

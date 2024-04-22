@@ -38,6 +38,12 @@ public class Map {
         }
     }
 
+    public boolean isWall(double x, double y) {
+        int row = (int) y;
+        int col = (int) x;
+        return mapInfo[row][col] != -1;
+    }
+
     public int[][] getMapInfo() {
         return mapInfo;
     }

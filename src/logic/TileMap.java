@@ -2,6 +2,7 @@ package logic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import render.Renderable;
 import util.Config;
 
@@ -83,6 +84,11 @@ public class TileMap implements Renderable {
                 gc.drawImage(img, -unitWidth / 2, -unitWidth / 2, unitWidth, unitWidth);
                 // Restore the transformation matrix for the next iteration
                 gc.restore();
+
+                if (mapCode == -1) {
+                    gc.setFill(Color.WHITE);
+                    gc.fillOval(xPadding + j * unitWidth, yPadding + i * unitWidth, 4, 4);
+                }
             }
         }
     }

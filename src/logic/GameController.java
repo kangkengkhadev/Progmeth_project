@@ -34,7 +34,7 @@ public class GameController {
         // Add the tile map to the list of rendered entities
         addNewEntity(tileMap);
         // Create the pacman
-        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "Pacman.PNG");
+        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, "Pacman.PNG");
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
     }
@@ -73,6 +73,10 @@ public class GameController {
                 renderedEntities.get(i).draw(gc);
             }
         }
+    }
+
+    public Map getMap() {
+        return map;
     }
 
     public static GameController getInstance() {

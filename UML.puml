@@ -1,19 +1,36 @@
 @startuml
+class logic.Vector2D {
+- double x
+- double y
++ <<Create>> Vector2D(double,double)
++ double getLength()
++ Vector2D normalize()
++ double getX()
++ double getY()
++ void setX(double)
++ void setY(double)
+}
 class logic.Pacman {
 - Image sprite
-- double[] velocity
+- Vector2D velocity
+- Vector2D nextVelocity
+- ArrayList<Rectangle> tileCollisions
 + <<Create>> Pacman(double,double,double,double,String)
+- Direction getCurrentDirection()
 + int getZIndex()
 + void draw(GraphicsContext)
+- void getInput()
 + void update(double)
-+ void move(double)
+- void move(double)
++ Rectangle getCollisionBox()
+- void createCollisionAroundPacman()
 }
 class logic.TileMap {
-+ {static} Image wallSolidSprite
-+ {static} Image wallParallelSprite
-+ {static} Image wallTurnSprite
-+ {static} Image wallJunctionSprite
-+ {static} Image wallTerminalSprite
+- {static} Image wallSolidSprite
+- {static} Image wallParallelSprite
+- {static} Image wallTurnSprite
+- {static} Image wallJunctionSprite
+- {static} Image wallTerminalSprite
 - boolean destroyed
 - Map map
 + <<Create>> TileMap(Map)
@@ -21,6 +38,12 @@ class logic.TileMap {
 + int getZIndex()
 + void setDestroyed(boolean)
 + boolean isDestroyed()
+}
+enum logic.Direction {
++  UP
++  DOWN
++  LEFT
++  RIGHT
 }
 class logic.GamePanel {
 - double unitWidth
@@ -50,6 +73,7 @@ class logic.GameController {
 + void render(GraphicsContext)
 - void addNewEntity(Renderable)
 - void renderEntities(GraphicsContext)
++ Map getMap()
 + {static} GameController getInstance()
 + GamePanel getGamePanel()
 }
@@ -58,25 +82,38 @@ class logic.Map {
 - int row
 - int col
 + <<Create>> Map(int,int,String)
++ boolean isWall(double,double)
 + int[][] getMapInfo()
 + void setRow(int)
 + int getRow()
 + void setCol(int)
 + int getCol()
 }
+interface logic.Collidable {
+~ Rectangle getCollisionBox()
+}
+class logic.Rectangle {
+- Vector2D origin
+- double width
+- double height
++ <<Create>> Rectangle(double,double,double,double)
++ boolean isColliding(Rectangle)
++ Vector2D getOrigin()
++ double getWidth()
++ double getHeight()
+}
 abstract class logic.Entity {
-# double x
-# double y
+# Vector2D position
 # boolean destroyed
 # double width
 # double height
 + <<Create>> Entity(double,double,double,double)
 + void setDestroyed(boolean)
 + boolean isDestroyed()
-+ double getX()
++ Vector2D getPosition()
 + void setX(double)
-+ double getY()
 + void setY(double)
++ Vector2D getCentroid()
 + double getWidth()
 + void setWidth(double)
 + double getHeight()
@@ -84,6 +121,7 @@ abstract class logic.Entity {
 }
 
 
+logic.Collidable <|.. logic.Pacman
 logic.Entity <|-- logic.Pacman
 render.Renderable <|.. logic.TileMap
 javafx.scene.canvas.Canvas <|-- logic.GamePanel
