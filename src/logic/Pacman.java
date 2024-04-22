@@ -8,6 +8,7 @@ import util.Config;
 import util.InputUtility;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Pacman extends Entity implements Collidable {
     private Image sprite;
@@ -24,19 +25,6 @@ public class Pacman extends Entity implements Collidable {
         nextVelocity = new Vector2D(0, 0);
     }
 
-    private Direction getCurrentDirection() {
-        if (velocity.getX() < 0) {
-            return Direction.LEFT;
-        } else if (velocity.getX() > 0) {
-            return Direction.RIGHT;
-        } else if (velocity.getY() < 0) {
-            return Direction.UP;
-        } else if (velocity.getY() > 0) {
-            return Direction.DOWN;
-        }
-        return null;
-    }
-
     @Override
     public int getZIndex() {
         return Config.PACMAN_Z_INDEX;
@@ -50,22 +38,6 @@ public class Pacman extends Entity implements Collidable {
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 width,
                 height);
-        gc.setFill(Color.RED);
-        // Draw tile collision around pacman
-        for (Rectangle tileCollision : tileCollisions) {
-            gc.fillRect(tileCollision.getOrigin().getX(),
-                    tileCollision.getOrigin().getY(),
-                    tileCollision.getWidth(),
-                    tileCollision.getHeight());
-        }
-        Rectangle collisionBox = getCollisionBox();
-        gc.setGlobalAlpha(0.5);
-        gc.setFill(Color.BLUE);
-        gc.fillRect(collisionBox.getOrigin().getX(),
-                collisionBox.getOrigin().getY(),
-                collisionBox.getWidth(),
-                collisionBox.getHeight());
-        gc.setGlobalAlpha(1);
         gc.setFill(Color.GREEN);
         gc.fillRect(position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
@@ -85,24 +57,76 @@ public class Pacman extends Entity implements Collidable {
         }
     }
 
+    private void changeVelocity() {
+        Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
+        if (position.equals(currentDiscretePosition)) {
+            if (nextVelocity.getCurrentDirection() == Direction.LEFT && GameController.getInstance().getMap().getMapInfo()[(int)position.getY()][(int)position.getX() - 1] == -1
+            || nextVelocity.getCurrentDirection() == Direction.RIGHT && GameController.getInstance().getMap().getMapInfo()[(int)position.getY()][(int)position.getX() + 1] == -1
+            || nextVelocity.getCurrentDirection() == Direction.UP && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() - 1][(int)position.getX()] == -1
+            || nextVelocity.getCurrentDirection() == Direction.DOWN && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() + 1][(int)position.getX()] == -1) {
+                velocity = nextVelocity;
+            } else {
+                Vector2D nextDiscretePosition;
+                if (velocity.getCurrentDirection() == null) return;
+                nextDiscretePosition = switch (velocity.getCurrentDirection()) {
+                    case LEFT -> new Vector2D(currentDiscretePosition.getX() - 1, currentDiscretePosition.getY());
+                    case RIGHT -> new Vector2D(currentDiscretePosition.getX() + 1, currentDiscretePosition.getY());
+                    case UP -> new Vector2D(currentDiscretePosition.getX(), currentDiscretePosition.getY() - 1);
+                    case DOWN -> new Vector2D(currentDiscretePosition.getX(), currentDiscretePosition.getY() + 1);
+                };
+                if (GameController.getInstance().getMap().isWall(nextDiscretePosition.getX(), nextDiscretePosition.getY())) {
+                    velocity = new Vector2D(0, 0);
+                }
+            }
+        } else if (velocity.isSameAxis(nextVelocity)) {
+            velocity = nextVelocity;
+        }
+    }
+
     public void update(double delta) {
         getInput();
         createCollisionAroundPacman();
-        // Move the pacman based on the velocity
-        velocity = nextVelocity;
-        // print current direction
+        changeVelocity();
         move(delta);
+        // print position
+        System.out.println(position.getX() + " " + position.getY());
     }
 
     private void move(double delta) {
-        Direction currentDirection = getCurrentDirection();
+        Direction currentDirection = velocity.getCurrentDirection();
         Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
         if (currentDirection != null) {
             if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
                 setY(currentDiscretePosition.getY());
+                if (currentDirection == Direction.LEFT) {
+                    Vector2D vec = new Vector2D(currentDiscretePosition.getX() - position.getX(), 0);
+                    if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                        setX(currentDiscretePosition.getX());
+                        return;
+                    }
+                } else {
+                    Vector2D vec = new Vector2D(currentDiscretePosition.getX() + 1 - position.getX(), 0);
+                    if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                        setX(currentDiscretePosition.getX() + 1);
+                        return;
+                    }
+                }
                 setX(position.getX() + velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             } else {
                 setX(currentDiscretePosition.getX());
+                if (currentDirection == Direction.UP) {
+                    Vector2D vec = new Vector2D(0, currentDiscretePosition.getY() - position.getY());
+                    if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                        setY(currentDiscretePosition.getY());
+                        return;
+                    }
+                } else {
+                    Vector2D vec = new Vector2D(0, currentDiscretePosition.getY() + 1 - position.getY());
+                    if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                        setY(currentDiscretePosition.getY() + 1);
+                        return;
+                    }
+                }
                 setY(position.getY() + velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             }
         }
