@@ -3,25 +3,28 @@ package logic;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import util.Config;
 import util.InputUtility;
 
 public class Pacman extends Entity implements Collidable {
-    private Image sprite;
+    private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
+    private Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
     private Vector2D velocity;
     private Vector2D nextVelocity;
     private int health;
     private PacmanState state;
+    private double speed;
 
-    public Pacman(double x, double y, double width, double height, String imgPath) {
+    public Pacman(double x, double y, double width, double height) {
         super(x, y, width, height);
-        // Load the image
-        sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());
         // Initialize the velocity to 0 in both x and y direction
         velocity = new Vector2D(0, 0);
         nextVelocity = new Vector2D(0, 0);
         health = Config.PACMAN_MAX_HEALTH;
         state = PacmanState.NORMAL;
+        speed = Config.PACMAN_SPEED;
     }
 
     @Override
@@ -32,22 +35,37 @@ public class Pacman extends Entity implements Collidable {
     @Override
     public void draw(GraphicsContext gc) {
         // Draw the sprite at the current position scaled to the unit width
-        gc.drawImage(sprite,
+        if (state == PacmanState.NORMAL) {
+            gc.drawImage(spriteNormal,
+                    position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
+                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
+                    width,
+                    height);
+        } else if (state == PacmanState.INVINCIBLE) {
+            gc.setGlobalAlpha(0.5);
+            gc.drawImage(spriteInvincible,
+                    position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
+                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
+                    width,
+                    height);
+            gc.setGlobalAlpha(1.0);
+        }
+        gc.setFont(Font.font("Arial", 20));
+        gc.setFill(Color.WHITE);
+        gc.fillText("State: " + state,
                 position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                width,
-                height);
+                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 20);
     }
 
     private void getInput() {
         if (InputUtility.getKeyPressed(KeyCode.W)) {
-            nextVelocity = new Vector2D(0, -Config.PACMAN_SPEED);
+            nextVelocity = new Vector2D(0, -speed);
         } else if (InputUtility.getKeyPressed(KeyCode.A)) {
-            nextVelocity = new Vector2D(-Config.PACMAN_SPEED, 0);
+            nextVelocity = new Vector2D(-speed, 0);
         } else if (InputUtility.getKeyPressed(KeyCode.S)) {
-            nextVelocity = new Vector2D(0, Config.PACMAN_SPEED);
+            nextVelocity = new Vector2D(0, speed);
         } else if (InputUtility.getKeyPressed(KeyCode.D)) {
-            nextVelocity = new Vector2D(Config.PACMAN_SPEED, 0);
+            nextVelocity = new Vector2D(speed, 0);
         }
     }
 
@@ -80,11 +98,14 @@ public class Pacman extends Entity implements Collidable {
     }
 
     private void startInvincible(long duration) {
+        state = PacmanState.INVINCIBLE;
         Thread invincibleThread = new Thread(() -> {
             try {
                 state = PacmanState.INVINCIBLE;
                 Thread.sleep(duration * 1000);
-                state = PacmanState.NORMAL;
+                if (state == PacmanState.INVINCIBLE) {
+                    state = PacmanState.NORMAL;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -93,6 +114,7 @@ public class Pacman extends Entity implements Collidable {
     }
 
     private void collisionCheck() {
+        if (state == PacmanState.INVINCIBLE) return;
         for (Ghost ghost : GameController.getInstance().getGhosts()) {
             if (getCollisionBox().isColliding(ghost.getCollisionBox())) {
                 health--;
