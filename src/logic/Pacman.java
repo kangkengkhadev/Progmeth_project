@@ -3,16 +3,15 @@ package logic;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import util.Config;
 import util.InputUtility;
-
-import java.util.ArrayList;
 
 public class Pacman extends Entity implements Collidable {
     private Image sprite;
     private Vector2D velocity;
     private Vector2D nextVelocity;
+    private int health;
+    private PacmanState state;
 
     public Pacman(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height);
@@ -21,6 +20,8 @@ public class Pacman extends Entity implements Collidable {
         // Initialize the velocity to 0 in both x and y direction
         velocity = new Vector2D(0, 0);
         nextVelocity = new Vector2D(0, 0);
+        health = Config.PACMAN_MAX_HEALTH;
+        state = PacmanState.NORMAL;
     }
 
     @Override
@@ -78,10 +79,36 @@ public class Pacman extends Entity implements Collidable {
         }
     }
 
+    private void startInvincible(long duration) {
+        Thread invincibleThread = new Thread(() -> {
+            try {
+                state = PacmanState.INVINCIBLE;
+                Thread.sleep(duration * 1000);
+                state = PacmanState.NORMAL;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        invincibleThread.start();
+    }
+
+    private void collisionCheck() {
+        for (Ghost ghost : GameController.getInstance().getGhosts()) {
+            if (getCollisionBox().isColliding(ghost.getCollisionBox())) {
+                health--;
+                startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
+                break;
+            }
+        }
+    }
+
     public void update(double delta) {
         getInput();
         changeVelocity();
         move(delta);
+        collisionCheck();
+        // print health
+        System.out.println("Pacman Health: " + health);
     }
 
     private void move(double delta) {

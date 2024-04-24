@@ -13,14 +13,16 @@ public abstract class Ghost extends Entity implements Collidable  {
     protected Image sprite;
     protected Vector2D velocity;
     protected Vector2D target;
+    private double speed;
 
-    public Ghost(double x, double y, double width, double height, String imgPath) {
+    public Ghost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height);
         // Load the image
         sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());
         // Initialize the velocity to 0 in both x and y direction
-        velocity = new Vector2D(Config.GHOST_SPEED, 0);
+        velocity = new Vector2D(speed, 0);
         target = new Vector2D(0, 0);
+        this.speed = speed;
     }
 
     @Override
@@ -85,8 +87,8 @@ public abstract class Ghost extends Entity implements Collidable  {
             }
 
             if (bestDirectionIndex != -1) {
-                velocity.setX(directionOffsets[bestDirectionIndex].getX() * Config.GHOST_SPEED);
-                velocity.setY(directionOffsets[bestDirectionIndex].getY() * Config.GHOST_SPEED);
+                velocity.setX(directionOffsets[bestDirectionIndex].getX() * speed);
+                velocity.setY(directionOffsets[bestDirectionIndex].getY() * speed);
             } else {
                 velocity.setX(-velocity.getX());
                 velocity.setY(-velocity.getY());

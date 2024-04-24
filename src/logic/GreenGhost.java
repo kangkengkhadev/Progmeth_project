@@ -5,14 +5,13 @@ import util.Config;
 public class GreenGhost extends LowGhost {
     private GhostState state;
 
-    public GreenGhost(double x, double y, double width, double height, String imgPath) {
-        super(x, y, width, height, imgPath);
+    public GreenGhost(double x, double y, double width, double height, double speed, String imgPath) {
+        super(x, y, width, height, speed, imgPath);
         startChase();
     }
 
     private void startChase() {
         state = GhostState.CHASE;
-        System.out.println("Green Ghost State: Chase");
         updateTarget();
         Thread chaseThread = new Thread(() -> {
             try {
