@@ -15,6 +15,7 @@ public class GameController {
     private final ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
+    private Eater apple;
     private GamePanel gamePanel;
     private TileMap tileMap;
 
@@ -35,8 +36,10 @@ public class GameController {
         addNewEntity(tileMap);
         // Create the pacman
         pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, "Pacman.PNG");
+        apple = new Eater(1,1,gamePanel.getUnitWidth() * (Config.PACMAN_SCALE*0.6),gamePanel.getUnitWidth() * (Config.PACMAN_SCALE*0.6),"Pacman.PNG");
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
+        addNewEntity(apple);
     }
 
     public void update(double delta) {
