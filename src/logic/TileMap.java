@@ -30,8 +30,13 @@ public class TileMap implements Renderable {
         for (int i = 0; i < map.getRow(); i++) {
             for (int j = 0; j < map.getCol(); j++) {
                 int mapCode = map.getMapInfo()[i][j];
+                int mapItemsCode = map.getMapItemsInfo()[i][j];
                 Image img = null;
                 double rotation = 0;
+                if (mapItemsCode == 1) {
+                    gc.setFill(Color.YELLOW);
+                    gc.fillOval(xPadding + (j+0.5) * unitWidth, yPadding + (i+0.5) * unitWidth, 4, 4);
+                }
                 if (mapCode == 0) {
                     img = wallParallelSprite;
                 } else if (mapCode == 1) {
@@ -85,10 +90,6 @@ public class TileMap implements Renderable {
                 // Restore the transformation matrix for the next iteration
                 gc.restore();
 
-                if (mapCode == -1) {
-                    gc.setFill(Color.RED);
-                    gc.fillOval(xPadding + (j+0.5) * unitWidth, yPadding + (i+0.5) * unitWidth, 4, 4);
-                }
             }
         }
     }

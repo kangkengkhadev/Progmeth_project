@@ -16,7 +16,7 @@ public class Map {
         setRow(row);
         setCol(col);
         this.mapInfo = new int[row][col];
-
+        this.mapItemsInfo = new int[row][col];
         // Read the map from the filePath
         try {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream(filePath);
@@ -29,7 +29,12 @@ public class Map {
                     for (int currentCol = 0; currentCol < Math.min(this.col, values.length); currentCol++) {
                         this.mapInfo[currentRow][currentCol] = Integer.parseInt(values[currentCol]);
                         if(Integer.parseInt(values[currentCol]) == -1){
-                            this.mapItemsInfo[currentRow][currentCol] = 1;
+                            if(currentRow == 17 && currentCol == 23){
+                                this.mapItemsInfo[currentRow][currentCol] = 0;
+                            }else{
+                                this.mapItemsInfo[currentRow][currentCol] = 1;
+                            }
+
                         }else{
                             this.mapItemsInfo[currentRow][currentCol] = 0;
                         }
@@ -38,7 +43,7 @@ public class Map {
                     currentRow++;
                 }
                 br.close();
-
+                System.out.println(Arrays.deepToString(mapItemsInfo));
             } else {
                 System.err.println("File not found: " + filePath);
             }
@@ -52,7 +57,9 @@ public class Map {
         int col = (int) x;
         return mapInfo[row][col] != -1;
     }
-
+    public int[][] getMapItemsInfo(){
+        return mapItemsInfo;
+    }
     public int[][] getMapInfo() {
         return mapInfo;
     }
