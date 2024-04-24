@@ -15,7 +15,6 @@ public class Pacman extends Entity implements Collidable {
     private Vector2D nextVelocity;
     private int health;
     private PacmanState state;
-    private double speed;
 
     public Pacman(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -24,7 +23,6 @@ public class Pacman extends Entity implements Collidable {
         nextVelocity = new Vector2D(0, 0);
         health = Config.PACMAN_MAX_HEALTH;
         state = PacmanState.NORMAL;
-        speed = Config.PACMAN_SPEED;
     }
 
     @Override
@@ -59,13 +57,13 @@ public class Pacman extends Entity implements Collidable {
 
     private void getInput() {
         if (InputUtility.getKeyPressed(KeyCode.W)) {
-            nextVelocity = new Vector2D(0, -speed);
+            nextVelocity = new Vector2D(0, -Config.PACMAN_SPEED);
         } else if (InputUtility.getKeyPressed(KeyCode.A)) {
-            nextVelocity = new Vector2D(-speed, 0);
+            nextVelocity = new Vector2D(-Config.PACMAN_SPEED, 0);
         } else if (InputUtility.getKeyPressed(KeyCode.S)) {
-            nextVelocity = new Vector2D(0, speed);
+            nextVelocity = new Vector2D(0, Config.PACMAN_SPEED);
         } else if (InputUtility.getKeyPressed(KeyCode.D)) {
-            nextVelocity = new Vector2D(speed, 0);
+            nextVelocity = new Vector2D(Config.PACMAN_SPEED, 0);
         }
     }
 
@@ -136,6 +134,7 @@ public class Pacman extends Entity implements Collidable {
     private void move(double delta) {
         Direction currentDirection = velocity.getCurrentDirection();
         Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
+        double speedMultiplier = (state == PacmanState.INVINCIBLE) ? Config.PACMAN_INVINCIBLE_SPEED_MULTIPLIER : 1;
         if (currentDirection != null) {
             if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
                 setY(currentDiscretePosition.getY());
@@ -152,7 +151,7 @@ public class Pacman extends Entity implements Collidable {
                         return;
                     }
                 }
-                setX(position.getX() + velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
+                setX(position.getX() + speedMultiplier * velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             } else {
                 setX(currentDiscretePosition.getX());
                 if (currentDirection == Direction.UP) {
@@ -168,7 +167,7 @@ public class Pacman extends Entity implements Collidable {
                         return;
                     }
                 }
-                setY(position.getY() + velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
+                setY(position.getY() + speedMultiplier * velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             }
         }
     }

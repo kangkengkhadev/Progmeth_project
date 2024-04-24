@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="99fe93bf-1359-4ca8-a9f4-4cc9711ecb69" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/Pacman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Pacman.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Config.java" afterDir="false" />
     </list>
