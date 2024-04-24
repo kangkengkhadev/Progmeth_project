@@ -60,6 +60,11 @@ public class Map {
     public int[][] getMapItemsInfo(){
         return mapItemsInfo;
     }
+
+    public void setMapItemsInfo(int x,int y,int val){
+        this.mapItemsInfo[x][y] = val;
+    }
+
     public int[][] getMapInfo() {
         return mapInfo;
     }

@@ -35,7 +35,7 @@ public class GameController {
         // Add the tile map to the list of rendered entities
         addNewEntity(tileMap);
         // Create the pacman
-        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "Pacman.PNG");
+        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
         // Create the ghosts
