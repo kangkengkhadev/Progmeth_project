@@ -2,21 +2,21 @@ package logic;
 
 import util.Config;
 
-public class YellowGhost extends LowGhost {
+public class OrangeGhost extends LowGhost {
     private GhostState state;
 
-    public YellowGhost(double x, double y, double width, double height, String imgPath) {
+    public OrangeGhost(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height, imgPath);
         startChase();
     }
 
     private void startChase() {
         state = GhostState.CHASE;
-        System.out.println("Yellow Ghost State: Chase");
+        System.out.println("Orange Ghost State: Chase");
         updateTarget();
         Thread chaseThread = new Thread(() -> {
             try {
-                Thread.sleep(Config.YELLOW_GHOST_CHASE_DURATION * 1000);
+                Thread.sleep(Config.ORANGE_GHOST_CHASE_DURATION * 1000);
                 if (getState() == GhostState.CHASE) {
                     startScatter();
                 }
@@ -29,11 +29,11 @@ public class YellowGhost extends LowGhost {
 
     private void startScatter() {
         state = GhostState.SCATTER;
-        System.out.println("Yellow Ghost State: Scatter");
+        System.out.println("Orange Ghost State: Scatter");
         updateTarget();
         Thread scatterThread = new Thread(() -> {
             try {
-                Thread.sleep(Config.YELLOW_GHOST_SCATTER_DURATION * 1000);
+                Thread.sleep(Config.ORANGE_GHOST_SCATTER_DURATION * 1000);
                 if (getState() == GhostState.SCATTER) {
                     startChase();
                 }
@@ -48,9 +48,9 @@ public class YellowGhost extends LowGhost {
         Pacman player = GameController.getInstance().getPacman();
         Vector2D playerDiscretePosition = new Vector2D((int)player.getPosition().getX(), (int)player.getPosition().getY());
         if (state == GhostState.CHASE) {
-            target = new Vector2D(playerDiscretePosition.getX(), playerDiscretePosition.getY() - 1);
+            target = new Vector2D(playerDiscretePosition.getX(), playerDiscretePosition.getY());
         } else if (state == GhostState.SCATTER) {
-            target = new Vector2D(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN);
+            target = new Vector2D(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN);
         }
     }
 

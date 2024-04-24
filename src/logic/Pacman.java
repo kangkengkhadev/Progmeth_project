@@ -36,11 +36,6 @@ public class Pacman extends Entity implements Collidable {
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 width,
                 height);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                5,
-                5);
     }
 
     private void getInput() {
@@ -62,6 +57,8 @@ public class Pacman extends Entity implements Collidable {
             || nextVelocity.getCurrentDirection() == Direction.RIGHT && GameController.getInstance().getMap().getMapInfo()[(int)position.getY()][(int)position.getX() + 1] == -1
             || nextVelocity.getCurrentDirection() == Direction.UP && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() - 1][(int)position.getX()] == -1
             || nextVelocity.getCurrentDirection() == Direction.DOWN && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() + 1][(int)position.getX()] == -1) {
+                Vector2D nextDiscretePosition = new Vector2D(currentDiscretePosition.getX() + nextVelocity.getX() / Config.PACMAN_SPEED, currentDiscretePosition.getY() + nextVelocity.getY() / Config.PACMAN_SPEED);
+                if (nextDiscretePosition.equals(new Vector2D(23, 10))) return;
                 velocity = nextVelocity;
             } else {
                 Vector2D nextDiscretePosition;
@@ -131,5 +128,9 @@ public class Pacman extends Entity implements Collidable {
     public Rectangle getCollisionBox() {
         GamePanel gamePanel = GameController.getInstance().getGamePanel();
         return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
     }
 }
