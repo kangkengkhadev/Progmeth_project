@@ -3,16 +3,15 @@ package logic;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import util.Config;
 import util.InputUtility;
-
-import java.util.ArrayList;
 
 public class Pacman extends Entity implements Collidable {
     private Image sprite;
     private Vector2D velocity;
     private Vector2D nextVelocity;
+    private int health;
+    private PacmanState state;
 
     public Pacman(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height);
@@ -21,6 +20,8 @@ public class Pacman extends Entity implements Collidable {
         // Initialize the velocity to 0 in both x and y direction
         velocity = new Vector2D(0, 0);
         nextVelocity = new Vector2D(0, 0);
+        health = Config.PACMAN_MAX_HEALTH;
+        state = PacmanState.NORMAL;
     }
 
     @Override
@@ -36,11 +37,6 @@ public class Pacman extends Entity implements Collidable {
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 width,
                 height);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                5,
-                5);
     }
 
     private void getInput() {
@@ -62,6 +58,8 @@ public class Pacman extends Entity implements Collidable {
             || nextVelocity.getCurrentDirection() == Direction.RIGHT && GameController.getInstance().getMap().getMapInfo()[(int)position.getY()][(int)position.getX() + 1] == -1
             || nextVelocity.getCurrentDirection() == Direction.UP && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() - 1][(int)position.getX()] == -1
             || nextVelocity.getCurrentDirection() == Direction.DOWN && GameController.getInstance().getMap().getMapInfo()[(int)position.getY() + 1][(int)position.getX()] == -1) {
+                Vector2D nextDiscretePosition = new Vector2D(currentDiscretePosition.getX() + nextVelocity.getX() / Config.PACMAN_SPEED, currentDiscretePosition.getY() + nextVelocity.getY() / Config.PACMAN_SPEED);
+                if (nextDiscretePosition.equals(new Vector2D(23, 10))) return;
                 velocity = nextVelocity;
             } else {
                 Vector2D nextDiscretePosition;
@@ -81,10 +79,36 @@ public class Pacman extends Entity implements Collidable {
         }
     }
 
+    private void startInvincible(long duration) {
+        Thread invincibleThread = new Thread(() -> {
+            try {
+                state = PacmanState.INVINCIBLE;
+                Thread.sleep(duration * 1000);
+                state = PacmanState.NORMAL;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        invincibleThread.start();
+    }
+
+    private void collisionCheck() {
+        for (Ghost ghost : GameController.getInstance().getGhosts()) {
+            if (getCollisionBox().isColliding(ghost.getCollisionBox())) {
+                health--;
+                startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
+                break;
+            }
+        }
+    }
+
     public void update(double delta) {
         getInput();
         changeVelocity();
         move(delta);
+        collisionCheck();
+        // print health
+        System.out.println("Pacman Health: " + health);
     }
 
     private void move(double delta) {
@@ -131,5 +155,9 @@ public class Pacman extends Entity implements Collidable {
     public Rectangle getCollisionBox() {
         GamePanel gamePanel = GameController.getInstance().getGamePanel();
         return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
     }
 }
