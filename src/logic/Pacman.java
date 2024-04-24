@@ -11,6 +11,7 @@ import util.InputUtility;
 public class Pacman extends Entity implements Collidable {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
     private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
+    private static Image spriteHeart = new Image(ClassLoader.getSystemResource("Heart.png").toString());
     private Vector2D velocity;
     private Vector2D nextVelocity;
     private int health;
@@ -47,6 +48,13 @@ public class Pacman extends Entity implements Collidable {
                     width,
                     height);
             gc.setGlobalAlpha(1.0);
+        }
+        for (int i = 0; i < health; i++) {
+            gc.drawImage(spriteHeart,
+                    GameController.getInstance().getGamePanel().getXPadding() + i * GameController.getInstance().getGamePanel().getUnitWidth(),
+                    GameController.getInstance().getGamePanel().getYPadding() - GameController.getInstance().getGamePanel().getUnitWidth(),
+                    GameController.getInstance().getGamePanel().getUnitWidth(),
+                    GameController.getInstance().getGamePanel().getUnitWidth());
         }
         gc.setFont(Font.font("Arial", 20));
         gc.setFill(Color.WHITE);
