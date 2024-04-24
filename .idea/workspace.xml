@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99fe93bf-1359-4ca8-a9f4-4cc9711ecb69" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/logic/PacmanState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/src/logic/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/TileMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/TileMap.java" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/src/logic/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Ghost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Ghost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/GreenGhost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GreenGhost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/LowGhost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/LowGhost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/OrangeGhost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/OrangeGhost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Pacman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Pacman.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/YellowGhost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/YellowGhost.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Config.java" afterDir="false" />
->>>>>>> refs/remotes/origin/main
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
