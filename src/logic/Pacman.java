@@ -8,13 +8,11 @@ import util.Config;
 import util.InputUtility;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Pacman extends Entity implements Collidable {
     private Image sprite;
     private Vector2D velocity;
     private Vector2D nextVelocity;
-    private ArrayList<Rectangle> tileCollisions = new ArrayList<Rectangle>();
 
     public Pacman(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height);
@@ -85,11 +83,8 @@ public class Pacman extends Entity implements Collidable {
 
     public void update(double delta) {
         getInput();
-        createCollisionAroundPacman();
         changeVelocity();
         move(delta);
-        // print position
-        System.out.println(position.getX() + " " + position.getY());
     }
 
     private void move(double delta) {
@@ -136,43 +131,5 @@ public class Pacman extends Entity implements Collidable {
     public Rectangle getCollisionBox() {
         GamePanel gamePanel = GameController.getInstance().getGamePanel();
         return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
-    }
-
-    private void createCollisionAroundPacman() {
-        GamePanel gamePanel = GameController.getInstance().getGamePanel();
-
-        // Get the current discrete position of the pacman
-        Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
-
-        // Create the collision boxes for the tiles around the pacman
-        tileCollisions.clear();
-        // If left cell is not a wall, create a collision box
-        if (GameController.getInstance().getMap().getMapInfo()[(int)currentDiscretePosition.getY()][(int)currentDiscretePosition.getX() - 1] == -1) {
-            tileCollisions.add(new Rectangle((currentDiscretePosition.getX() - 1) * gamePanel.getUnitWidth() + gamePanel.getXPadding(),
-                    currentDiscretePosition.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(),
-                    gamePanel.getUnitWidth(),
-                    gamePanel.getUnitWidth()));
-        }
-        // If right cell is not a wall, create a collision box
-        if (GameController.getInstance().getMap().getMapInfo()[(int)currentDiscretePosition.getY()][(int)currentDiscretePosition.getX() + 1] == -1) {
-            tileCollisions.add(new Rectangle((currentDiscretePosition.getX() + 1) * gamePanel.getUnitWidth() + gamePanel.getXPadding(),
-                    currentDiscretePosition.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(),
-                    gamePanel.getUnitWidth(),
-                    gamePanel.getUnitWidth()));
-        }
-        // If top cell is not a wall, create a collision box
-        if (GameController.getInstance().getMap().getMapInfo()[(int)currentDiscretePosition.getY() - 1][(int)currentDiscretePosition.getX()] == -1) {
-            tileCollisions.add(new Rectangle(currentDiscretePosition.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(),
-                    (currentDiscretePosition.getY() - 1) * gamePanel.getUnitWidth() + gamePanel.getYPadding(),
-                    gamePanel.getUnitWidth(),
-                    gamePanel.getUnitWidth()));
-        }
-        // If bottom cell is not a wall, create a collision box
-        if (GameController.getInstance().getMap().getMapInfo()[(int)currentDiscretePosition.getY() + 1][(int)currentDiscretePosition.getX()] == -1) {
-            tileCollisions.add(new Rectangle(currentDiscretePosition.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(),
-                    (currentDiscretePosition.getY() + 1) * gamePanel.getUnitWidth() + gamePanel.getYPadding(),
-                    gamePanel.getUnitWidth(),
-                    gamePanel.getUnitWidth()));
-        }
     }
 }

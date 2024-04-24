@@ -86,4 +86,8 @@ public class GameController {
     public GamePanel getGamePanel() {
         return gamePanel;
     }
+
+    public Pacman getPacman() {
+        return pacman;
+    }
 }

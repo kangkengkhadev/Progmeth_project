@@ -10,8 +10,9 @@ import util.InputUtility;
 import java.util.ArrayList;
 
 public abstract class Ghost extends Entity implements Collidable  {
-    private Image sprite;
-    private Vector2D velocity;
+    protected Image sprite;
+    protected Vector2D velocity;
+    protected Vector2D target;
 
     public Ghost(double x, double y, double width, double height, String imgPath) {
         super(x, y, width, height);
@@ -19,20 +20,7 @@ public abstract class Ghost extends Entity implements Collidable  {
         sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());
         // Initialize the velocity to 0 in both x and y direction
         velocity = new Vector2D(0, 0);
-
-    }
-
-    private Direction getCurrentDirection() {
-        if (velocity.getX() < 0) {
-            return Direction.LEFT;
-        } else if (velocity.getX() > 0) {
-            return Direction.RIGHT;
-        } else if (velocity.getY() < 0) {
-            return Direction.UP;
-        } else if (velocity.getY() > 0) {
-            return Direction.DOWN;
-        }
-        return null;
+        target = new Vector2D(0, 0);
     }
 
     @Override
@@ -48,12 +36,6 @@ public abstract class Ghost extends Entity implements Collidable  {
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 width,
                 height);
-    }
-
-    public void update(double delta) {
-    }
-
-    private void move(double delta) {
     }
 
     @Override
