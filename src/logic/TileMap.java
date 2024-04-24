@@ -86,8 +86,8 @@ public class TileMap implements Renderable {
                 gc.restore();
 
                 if (mapCode == -1) {
-                    gc.setFill(Color.WHITE);
-                    gc.fillOval(xPadding + j * unitWidth, yPadding + i * unitWidth, 4, 4);
+                    gc.setFill(Color.RED);
+                    gc.fillOval(xPadding + (j+0.5) * unitWidth, yPadding + (i+0.5) * unitWidth, 4, 4);
                 }
             }
         }

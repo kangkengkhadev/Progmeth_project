@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Map {
     private int[][] mapInfo;
+    private int[][] mapItemsInfo;
     private int row;
     private int col;
 
@@ -26,10 +28,17 @@ public class Map {
                     String[] values = buffer.split(",");
                     for (int currentCol = 0; currentCol < Math.min(this.col, values.length); currentCol++) {
                         this.mapInfo[currentRow][currentCol] = Integer.parseInt(values[currentCol]);
+                        if(Integer.parseInt(values[currentCol]) == -1){
+                            this.mapItemsInfo[currentRow][currentCol] = 1;
+                        }else{
+                            this.mapItemsInfo[currentRow][currentCol] = 0;
+                        }
+
                     }
                     currentRow++;
                 }
                 br.close();
+
             } else {
                 System.err.println("File not found: " + filePath);
             }
