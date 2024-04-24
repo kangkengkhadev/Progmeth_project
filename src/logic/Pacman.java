@@ -10,7 +10,7 @@ import util.InputUtility;
 
 public class Pacman extends Entity implements Collidable {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
-    private Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
+    private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
     private Vector2D velocity;
     private Vector2D nextVelocity;
     private int health;
@@ -114,7 +114,8 @@ public class Pacman extends Entity implements Collidable {
     private void collisionCheck() {
         if (state == PacmanState.INVINCIBLE) return;
         for (Ghost ghost : GameController.getInstance().getGhosts()) {
-            if (getCollisionBox().isColliding(ghost.getCollisionBox())) {
+            Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
+            if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
                 health--;
                 startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
                 break;
@@ -127,8 +128,6 @@ public class Pacman extends Entity implements Collidable {
         changeVelocity();
         move(delta);
         collisionCheck();
-        // print health
-        System.out.println("Pacman Health: " + health);
     }
 
     private void move(double delta) {

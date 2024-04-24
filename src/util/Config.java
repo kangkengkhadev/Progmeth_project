@@ -8,6 +8,7 @@ public class Config {
     public static final int PACMAN_X_ORIGIN = 23;
     public static final int PACMAN_Y_ORIGIN = 17;
     public static final int PACMAN_Z_INDEX = 1;
+    public static final double PACMAN_COLLISION_RADIUS = 0.2;
     public static final int PACMAN_MAX_HEALTH = 3;
     public static final int PACMAN_HURT_INVINCIBILITY_DURATION = 3;
     public static final int FPS_CAP = 60;
