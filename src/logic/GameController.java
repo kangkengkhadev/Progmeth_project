@@ -11,8 +11,9 @@ import java.util.Comparator;
 
 public class GameController {
     private static final GameController instance = new GameController();
-    private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
-    private final ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
+    private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
+    private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
+    private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
@@ -34,14 +35,20 @@ public class GameController {
         // Add the tile map to the list of rendered entities
         addNewEntity(tileMap);
         // Create the pacman
-        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, "Pacman.PNG");
+        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "Pacman.PNG");
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
+        // Create the ghosts
+        addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), "YellowGhost.PNG"));
     }
 
     public void update(double delta) {
         // Update the pacman
         pacman.update(delta);
+        // Update the ghosts
+        for (Ghost ghost : ghosts) {
+            ghost.update(delta);
+        }
     }
 
     public void render(GraphicsContext gc) {
@@ -53,6 +60,11 @@ public class GameController {
         gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         // Render the map
         renderEntities(gc);
+    }
+
+    private void addNewGhost(Ghost ghost) {
+        ghosts.add(ghost);
+        addNewEntity(ghost);
     }
 
     private void addNewEntity(Renderable rendererObj) {
