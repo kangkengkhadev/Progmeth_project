@@ -2,10 +2,6 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.idea/
-**/.idea/workspace.xml
-**/.idea/tasks.xml
-**/project.iml
 
 ### Eclipse ###
 .apt_generated
@@ -28,6 +24,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-
-### Mac OS ###
-.DS_Store
