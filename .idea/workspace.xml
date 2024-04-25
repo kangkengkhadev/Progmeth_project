@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99fe93bf-1359-4ca8-a9f4-4cc9711ecb69" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/res/grid_data_item_out.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Collidable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Ghost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Ghost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Pacman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Pacman.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Config.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +40,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Progmeth_project&quot;,
@@ -63,7 +54,7 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="project" />
-      <option name="VM_PARAMETERS" value="--module-path $USER_HOME$/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\User\Desktop\Weerawat\university\progmeth\javafx-sdk-21.0.2\lib --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media " />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
