@@ -1,9 +1,10 @@
-package logic;
+package logic.entity.item;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import render.Renderable;
+import logic.entity.Entity;
+import logic.GameController;
 import util.Config;
 
 public abstract class Item extends Entity {

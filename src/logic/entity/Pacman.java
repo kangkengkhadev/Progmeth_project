@@ -1,10 +1,14 @@
-package logic;
+package logic.entity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.*;
+import logic.entity.Entity;
+import logic.entity.ghost.Ghost;
+import logic.entity.item.Item;
 import util.Config;
 import util.InputUtility;
 import java.util.ArrayList;

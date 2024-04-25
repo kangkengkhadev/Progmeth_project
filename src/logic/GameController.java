@@ -3,6 +3,13 @@ package logic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import logic.entity.Pacman;
+import logic.entity.ghost.Ghost;
+import logic.entity.ghost.GreenGhost;
+import logic.entity.ghost.OrangeGhost;
+import logic.entity.ghost.YellowGhost;
+import logic.entity.item.Cloak;
+import logic.entity.item.Item;
 import render.Renderable;
 import util.Config;
 
