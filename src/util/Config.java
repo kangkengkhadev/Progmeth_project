@@ -16,6 +16,7 @@ public class Config {
     public static final double MOVEMENT_OFFSET_THRESHOLD = 0.005;
     public static final int GHOST_X_ORIGIN = 23;
     public static final int GHOST_Y_ORIGIN = 17;
+    public static final int GHOST_FRIGHTENED_DURATION = 8;
     public static final int INVINCIBILITY_DURATION = 5;
     public static final double NORMAL_GHOST_SPEED = 0.11;
     public static final int GHOST_Z_INDEX = 1;
@@ -32,4 +33,6 @@ public class Config {
     public static final int GREEN_GHOST_X_ORIGIN = 45;
     public static final int GREEN_GHOST_Y_ORIGIN = 21;
     public static final int ITEM_Z_INDEX = 1;
+    public static final double SMALL_CIRCLE_CIRCUMSTANCE = 0.2;
+    public static final double BIG_CIRCLE_CIRCUMSTANCE = 0.7;
 }

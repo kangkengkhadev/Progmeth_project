@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.Entity;
 import logic.entity.ghost.state.ChaseState;
+import logic.entity.ghost.state.FrightenState;
 import logic.fsm.FiniteStateMachine;
 import util.Config;
 
@@ -26,6 +27,10 @@ public abstract class BaseGhost extends Entity {
         target = new Vector2D(0, 0);
         this.speed = speed;
         fsm = new FiniteStateMachine(new ChaseState(this));
+    }
+
+    public void startFrighten() {
+        fsm.changeState(new FrightenState(this));
     }
 
     @Override
@@ -155,6 +160,10 @@ public abstract class BaseGhost extends Entity {
 
     public FiniteStateMachine getFsm() {
         return fsm;
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
     }
 }
 

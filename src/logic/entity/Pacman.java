@@ -142,6 +142,11 @@ public class Pacman extends Entity {
         if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
             GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
+        } else if (itemCode == 3 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+            map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
+            for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
+                ghost.startFrighten();
+            }
         }
 
         ArrayList<BaseItem> deletedItems = new ArrayList<BaseItem>();
@@ -157,8 +162,6 @@ public class Pacman extends Entity {
         for(BaseItem item : deletedItems){
             GameController.getInstance().getItems().remove(item);
         }
-//        System.out.println(GameController.getInstance().getItems().toArray().length);
-
     }
 
     public void update(double delta) {

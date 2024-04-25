@@ -33,10 +33,6 @@ public class TileMap implements Renderable {
                 int mapItemsCode = map.getMapItemsInfo()[i][j];
                 Image img = null;
                 double rotation = 0;
-                if (mapItemsCode == 1) {
-                    gc.setFill(Color.YELLOW);
-                    gc.fillOval(xPadding + (j + 0.5) * unitWidth, yPadding + (i + 0.5) * unitWidth, 4, 4);
-                }
                 if (mapCode == 0) {
                     img = wallParallelSprite;
                 } else if (mapCode == 1) {
@@ -90,6 +86,13 @@ public class TileMap implements Renderable {
                 // Restore the transformation matrix for the next iteration
                 gc.restore();
 
+                gc.setFill(Color.YELLOW);
+                double circumstance = switch (mapItemsCode) {
+                    case 1 -> Config.SMALL_CIRCLE_CIRCUMSTANCE;
+                    case 3 -> Config.BIG_CIRCLE_CIRCUMSTANCE;
+                    default -> 0;
+                };
+                gc.fillOval(xPadding + (j + 0.5 - circumstance / 2) * unitWidth, yPadding + (i + 0.5 - circumstance / 2) * unitWidth, circumstance * unitWidth, circumstance * unitWidth);
             }
         }
     }
