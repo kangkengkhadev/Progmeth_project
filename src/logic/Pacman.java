@@ -8,6 +8,8 @@ import javafx.scene.text.Font;
 import util.Config;
 import util.InputUtility;
 
+import java.util.ArrayList;
+
 public class Pacman extends Entity implements Collidable {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
     private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
@@ -130,11 +132,29 @@ public class Pacman extends Entity implements Collidable {
             }
         }
 
-        Vector2D itemCentroidPosition = new Vector2D((int)getCentroid().getX() + 0.5,(int)getCentroid().getY() + 0.5);
-        Vector2D vec = new Vector2D(getCentroid().getX() - itemCentroidPosition.getX(), getCentroid().getY() - itemCentroidPosition.getX());
-        if(vec.getLength() < Config.PACMAN_COLLISION_RADIUS){
-            GameController.getInstance().getMap().setMapItemsInfo((int) itemCentroidPosition.getY(),(int) itemCentroidPosition.getX(),0);
+        Map map = GameController.getInstance().getMap();
+        Vector2D centeredMapPosition = new Vector2D((int)getCentroid().getX() + 0.5, (int)getCentroid().getY() + 0.5);
+        Vector2D vec = new Vector2D(centeredMapPosition.getX() - getCentroid().getX(), centeredMapPosition.getY() - getCentroid().getY());
+        int itemCode = map.getMapItemsInfo()[(int)centeredMapPosition.getY()][(int)centeredMapPosition.getX()];
+        if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+            map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
         }
+
+        ArrayList<Item> deletedItems = new ArrayList<Item>();
+        for(Item item : GameController.getInstance().getItems()){
+            Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
+            Vector2D itemVec = new Vector2D(itemPosition.getX() - getCentroid().getX(), itemPosition.getY() - getCentroid().getY());
+            if (itemVec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+                item.useEffect();
+                item.destroy();
+                deletedItems.add(item);
+            }
+        }
+        for(Item item : deletedItems){
+            GameController.getInstance().getItems().remove(item);
+        }
+//        System.out.println(GameController.getInstance().getItems().toArray().length);
+
     }
 
     public void update(double delta) {
