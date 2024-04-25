@@ -51,6 +51,7 @@ public abstract class BaseGhost extends Entity {
             case "OrangeGhost" -> Color.ORANGE;
             case "YellowGhost" -> Color.YELLOW;
             case "GreenGhost" -> Color.GREEN;
+            case "TankGhost" -> Color.PINK;
             default -> Color.BLACK;
         });
 

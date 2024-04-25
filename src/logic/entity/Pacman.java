@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
+import logic.entity.ghost.TankGhost;
 import logic.entity.item.BaseItem;
 import util.Config;
 import util.InputUtility;
@@ -129,7 +130,12 @@ public class Pacman extends Entity {
         for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
             if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
-                health--;
+                if(ghost instanceof TankGhost){
+                    health -= 2;
+                }else{
+                    health --;
+                }
+
                 startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
                 break;
             }
@@ -149,6 +155,7 @@ public class Pacman extends Entity {
             }
         }
 
+
         ArrayList<BaseItem> deletedItems = new ArrayList<BaseItem>();
         for(BaseItem item : GameController.getInstance().getItems()){
             Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
@@ -162,6 +169,8 @@ public class Pacman extends Entity {
         for(BaseItem item : deletedItems){
             GameController.getInstance().getItems().remove(item);
         }
+
+
     }
 
     public void update(double delta) {
