@@ -1,8 +1,9 @@
 package logic.fsm;
 
 public class FiniteStateMachine {
-    BaseState initialState;
-    BaseState currentState;
+    private BaseState initialState;
+    private BaseState currentState;
+    private String currentStateName;
 
     public FiniteStateMachine (BaseState initialState) {
         this.initialState = initialState;
@@ -22,5 +23,9 @@ public class FiniteStateMachine {
 
     public BaseState getCurrentState() {
         return currentState;
+    }
+
+    public String getCurrentStateName() {
+        return currentState.getClass().getSimpleName();
     }
 }
