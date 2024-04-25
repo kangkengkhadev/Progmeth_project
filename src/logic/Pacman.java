@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import util.Config;
 import util.InputUtility;
+import java.util.ArrayList;
+
 
 public class Pacman extends Entity {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
@@ -138,6 +140,22 @@ public class Pacman extends Entity {
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
             GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
         }
+
+        ArrayList<Item> deletedItems = new ArrayList<Item>();
+        for(Item item : GameController.getInstance().getItems()){
+            Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
+            Vector2D itemVec = new Vector2D(itemPosition.getX() - getCentroid().getX(), itemPosition.getY() - getCentroid().getY());
+            if (itemVec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+                item.useEffect();
+                item.destroy();
+                deletedItems.add(item);
+            }
+        }
+        for(Item item : deletedItems){
+            GameController.getInstance().getItems().remove(item);
+        }
+//        System.out.println(GameController.getInstance().getItems().toArray().length);
+
     }
 
     public void update(double delta) {

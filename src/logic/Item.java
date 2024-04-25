@@ -45,4 +45,9 @@ public abstract class Item extends Entity {
     public void destroy() {
         isDestroyed = true;
     }
+
+
+    public void useEffect(){
+
+    }
 }

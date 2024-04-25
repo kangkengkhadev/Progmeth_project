@@ -14,11 +14,14 @@ public class GameController {
     private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
     private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
     private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
+    private ArrayList<Item> items = new ArrayList<Item>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
     private TileMap tileMap;
     private int score = 0;
+
+
 
     public void start(GraphicsContext gc) {
         // Get the game panel
@@ -43,6 +46,9 @@ public class GameController {
         addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
         addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
         addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
     public void update(double delta) {
@@ -52,6 +58,7 @@ public class GameController {
         for (Ghost ghost : ghosts) {
             ghost.update(delta);
         }
+
     }
 
     public void render(GraphicsContext gc) {
@@ -68,6 +75,10 @@ public class GameController {
     private void addNewGhost(Ghost ghost) {
         ghosts.add(ghost);
         addNewEntity(ghost);
+    }
+    private void addNewItem(Item item) {
+        items.add(item);
+        addNewEntity(item);
     }
 
     private void addNewEntity(Renderable rendererObj) {
@@ -109,7 +120,12 @@ public class GameController {
     public ArrayList<Ghost> getGhosts() {
         return ghosts;
     }
-
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
     public int getScore() {
         return score;
     }
