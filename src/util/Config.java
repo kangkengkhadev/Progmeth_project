@@ -26,7 +26,7 @@ public class Config {
     public static final int ORANGE_GHOST_SCATTER_DURATION = 4;
     public static final int ORANGE_GHOST_X_ORIGIN = 45;
     public static final int ORANGE_GHOST_Y_ORIGIN = 1;
-    public static final int GREEN_GHOST_CHASE_DURATION = 10;
+    public static final int GREEN_GHOST_CHASE_DURATION = 6;
     public static final int GREEN_GHOST_SCATTER_DURATION = 3;
     public static final int GREEN_GHOST_X_ORIGIN = 45;
     public static final int GREEN_GHOST_Y_ORIGIN = 21;
