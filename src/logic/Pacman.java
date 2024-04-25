@@ -58,7 +58,7 @@ public class Pacman extends Entity {
         }
         gc.setFont(Font.font("Arial", 20));
         gc.setFill(Color.WHITE);
-        gc.fillText("State: " + state,
+        gc.fillText("Score: " + GameController.getInstance().getScore(),
                 position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 20);
     }
@@ -136,6 +136,7 @@ public class Pacman extends Entity {
         int itemCode = map.getMapItemsInfo()[(int)centeredMapPosition.getY()][(int)centeredMapPosition.getX()];
         if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
+            GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
         }
     }
 

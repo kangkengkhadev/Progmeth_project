@@ -11,13 +11,14 @@ import java.util.Comparator;
 
 public class GameController {
     private static final GameController instance = new GameController();
-    private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
+    private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
     private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
     private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
     private TileMap tileMap;
+    private int score = 0;
 
     public void start(GraphicsContext gc) {
         // Get the game panel
@@ -107,5 +108,13 @@ public class GameController {
 
     public ArrayList<Ghost> getGhosts() {
         return ghosts;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
