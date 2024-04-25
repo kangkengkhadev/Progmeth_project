@@ -1,5 +1,6 @@
-package logic;
+package logic.entity;
 
+import logic.Vector2D;
 import render.Renderable;
 
 public abstract class Entity implements Renderable {

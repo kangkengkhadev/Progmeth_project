@@ -1,21 +1,24 @@
-package logic;
+package logic.entity.ghost;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import logic.*;
+import logic.entity.Entity;
+import logic.entity.ghost.state.ChaseState;
+import logic.entity.ghost.state.FrightenState;
+import logic.fsm.FiniteStateMachine;
 import util.Config;
-import util.InputUtility;
 
-import java.util.ArrayList;
-
-public abstract class Ghost extends Entity {
+public abstract class BaseGhost extends Entity {
     protected Image sprite;
     protected Vector2D velocity;
     protected Vector2D target;
     private double speed;
+    private FiniteStateMachine fsm;
 
-    public Ghost(double x, double y, double width, double height, double speed, String imgPath) {
+    public BaseGhost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height);
         // Load the image
         sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());
@@ -23,6 +26,11 @@ public abstract class Ghost extends Entity {
         velocity = new Vector2D(speed, 0);
         target = new Vector2D(0, 0);
         this.speed = speed;
+        fsm = new FiniteStateMachine(new ChaseState(this));
+    }
+
+    public void startFrighten() {
+        fsm.changeState(new FrightenState(this));
     }
 
     @Override
@@ -50,6 +58,12 @@ public abstract class Ghost extends Entity {
                 (target.getY() + 0.5) * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 5,
                 5);
+
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font("Arial", 20));
+        gc.fillText("State: " + fsm.getCurrentState().getClass().getSimpleName(),
+                position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
+                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 10);
     }
 
     private void changeVelocity() {
@@ -134,12 +148,22 @@ public abstract class Ghost extends Entity {
         }
     }
 
-    protected abstract void updateTarget();
-
     public void update(double delta) {
-        updateTarget();
+        fsm.update(delta);
         changeVelocity();
         move(delta);
+    }
+
+    public void setTarget(Vector2D target) {
+        this.target = target;
+    }
+
+    public FiniteStateMachine getFsm() {
+        return fsm;
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
     }
 }
 

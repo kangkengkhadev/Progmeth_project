@@ -1,11 +1,7 @@
-package logic;
+package logic.entity.ghost;
 
-
-import util.Config;
-
-public abstract class LowGhost extends Ghost{
+public abstract class LowGhost extends BaseGhost {
     public LowGhost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height, speed, imgPath);
     }
-
 }

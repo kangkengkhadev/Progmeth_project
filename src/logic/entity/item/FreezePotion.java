@@ -1,8 +1,6 @@
-package logic;
+package logic.entity.item;
 
-import util.Config;
-
-public class FreezePotion extends Item {
+public class FreezePotion extends BaseItem {
     public FreezePotion(double x, double y, double width, double height) {
         super(x, y, width, height, "Freeze.png");
     }
