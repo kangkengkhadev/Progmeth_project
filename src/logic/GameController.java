@@ -50,9 +50,9 @@ public class GameController {
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
         // Create the ghosts
-        addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
-        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
-        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+        addNewGhost(new YellowGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
+        // addNewGhost(new OrangeGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
+        // addNewGhost(new GreenGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
 //        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
 //        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
 //        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));

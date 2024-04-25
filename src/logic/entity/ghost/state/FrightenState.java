@@ -31,7 +31,7 @@ public class FrightenState extends BaseState {
         Thread frightenThread = new Thread(() -> {
             try {
                 Thread.sleep(Config.GHOST_FRIGHTENED_DURATION * 1000);
-                if (ghost.getFsm().getCurrentState().getClass().getSimpleName().equals("FrightenState")) {
+                if (ghost.getFsm().getCurrentStateName().equals("FrightenState")) {
                     ghost.getFsm().changeState(new ChaseState(ghost));
                 }
             } catch (InterruptedException e) {

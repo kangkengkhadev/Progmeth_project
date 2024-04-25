@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
+import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import util.Config;
 import util.InputUtility;
@@ -128,10 +129,16 @@ public class Pacman extends Entity {
         if (state == PacmanState.INVINCIBLE) return;
         for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
-            if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
-                health--;
-                startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
-                break;
+            if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS ) {
+                if (ghost.getFsm().getCurrentStateName().equals("FrightenState")
+                    || ghost.getFsm().getCurrentStateName().equals("RespawnState")
+                    || ghost.getFsm().getCurrentStateName().equals("SpawnState")) {
+                    ghost.getFsm().changeState(new RespawnState(ghost));
+                } else {
+                    health--;
+                    startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
+                    break;
+                }
             }
         }
 

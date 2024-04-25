@@ -36,7 +36,7 @@ public class ScatterState extends BaseState {
         Thread scatterThread = new Thread(() -> {
             try {
                 Thread.sleep(scatterDuration * 1000);
-                if (ghost.getFsm().getCurrentState().getClass().getSimpleName().equals("ScatterState")) {
+                if (ghost.getFsm().getCurrentStateName().equals("ScatterState")) {
                     ghost.getFsm().changeState(new ChaseState(ghost));
                 }
             } catch (InterruptedException e) {
