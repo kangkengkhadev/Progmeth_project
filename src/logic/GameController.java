@@ -3,6 +3,13 @@ package logic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import logic.entity.Pacman;
+import logic.entity.ghost.BaseGhost;
+import logic.entity.ghost.GreenGhost;
+import logic.entity.ghost.OrangeGhost;
+import logic.entity.ghost.YellowGhost;
+import logic.entity.item.Cloak;
+import logic.entity.item.BaseItem;
 import render.Renderable;
 import util.Config;
 
@@ -11,12 +18,17 @@ import java.util.Comparator;
 
 public class GameController {
     private static final GameController instance = new GameController();
-    private final Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION, "grid_data_out.csv");
-    private final ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
+    private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
+    private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
+    private ArrayList<BaseGhost> ghosts = new ArrayList<BaseGhost>();
+    private ArrayList<BaseItem> items = new ArrayList<BaseItem>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
     private TileMap tileMap;
+    private int score = 0;
+
+
 
     public void start(GraphicsContext gc) {
         // Get the game panel
@@ -34,14 +46,26 @@ public class GameController {
         // Add the tile map to the list of rendered entities
         addNewEntity(tileMap);
         // Create the pacman
-        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, gamePanel.getUnitWidth() * Config.PACMAN_SCALE, "Pacman.PNG");
+        pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
+        // Create the ghosts
+        addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
+        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
+        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
     public void update(double delta) {
         // Update the pacman
         pacman.update(delta);
+        // Update the ghosts
+        for (BaseGhost ghost : ghosts) {
+            ghost.update(delta);
+        }
+
     }
 
     public void render(GraphicsContext gc) {
@@ -53,6 +77,15 @@ public class GameController {
         gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         // Render the map
         renderEntities(gc);
+    }
+
+    private void addNewGhost(BaseGhost ghost) {
+        ghosts.add(ghost);
+        addNewEntity(ghost);
+    }
+    private void addNewItem(BaseItem item) {
+        items.add(item);
+        addNewEntity(item);
     }
 
     private void addNewEntity(Renderable rendererObj) {
@@ -85,5 +118,26 @@ public class GameController {
 
     public GamePanel getGamePanel() {
         return gamePanel;
+    }
+
+    public Pacman getPacman() {
+        return pacman;
+    }
+
+    public ArrayList<BaseGhost> getGhosts() {
+        return ghosts;
+    }
+    public ArrayList<BaseItem> getItems() {
+        return items;
+    }
+    public void setItems(ArrayList<BaseItem> items) {
+        this.items = items;
+    }
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

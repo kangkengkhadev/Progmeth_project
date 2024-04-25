@@ -30,6 +30,7 @@ public class TileMap implements Renderable {
         for (int i = 0; i < map.getRow(); i++) {
             for (int j = 0; j < map.getCol(); j++) {
                 int mapCode = map.getMapInfo()[i][j];
+                int mapItemsCode = map.getMapItemsInfo()[i][j];
                 Image img = null;
                 double rotation = 0;
                 if (mapCode == 0) {
@@ -85,10 +86,13 @@ public class TileMap implements Renderable {
                 // Restore the transformation matrix for the next iteration
                 gc.restore();
 
-                if (mapCode == -1) {
-                    gc.setFill(Color.WHITE);
-                    gc.fillOval(xPadding + j * unitWidth, yPadding + i * unitWidth, 4, 4);
-                }
+                gc.setFill(Color.YELLOW);
+                double circumstance = switch (mapItemsCode) {
+                    case 1 -> Config.SMALL_CIRCLE_CIRCUMSTANCE;
+                    case 3 -> Config.BIG_CIRCLE_CIRCUMSTANCE;
+                    default -> 0;
+                };
+                gc.fillOval(xPadding + (j + 0.5 - circumstance / 2) * unitWidth, yPadding + (i + 0.5 - circumstance / 2) * unitWidth, circumstance * unitWidth, circumstance * unitWidth);
             }
         }
     }
