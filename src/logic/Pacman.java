@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import util.Config;
 import util.InputUtility;
 
-public class Pacman extends Entity implements Collidable {
+public class Pacman extends Entity {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
     private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
     private static Image spriteHeart = new Image(ClassLoader.getSystemResource("Heart.png").toString());
@@ -185,12 +185,6 @@ public class Pacman extends Entity implements Collidable {
                 setY(position.getY() + speedMultiplier * velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             }
         }
-    }
-
-    @Override
-    public Rectangle getCollisionBox() {
-        GamePanel gamePanel = GameController.getInstance().getGamePanel();
-        return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
     }
 
     public Vector2D getVelocity() {

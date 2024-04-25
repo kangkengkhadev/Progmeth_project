@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import render.Renderable;
 import util.Config;
 
-public abstract class Item extends Entity implements Renderable, Collidable {
+public abstract class Item extends Entity {
     private Image sprite;
     private boolean isDestroyed;
 
@@ -44,10 +44,5 @@ public abstract class Item extends Entity implements Renderable, Collidable {
 
     public void destroy() {
         isDestroyed = true;
-    }
-
-    @Override
-    public Rectangle getCollisionBox() {
-        return new Rectangle(position.getX(), position.getY(), width, height);
     }
 }

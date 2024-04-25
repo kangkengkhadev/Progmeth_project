@@ -9,7 +9,7 @@ import util.InputUtility;
 
 import java.util.ArrayList;
 
-public abstract class Ghost extends Entity implements Collidable  {
+public abstract class Ghost extends Entity {
     protected Image sprite;
     protected Vector2D velocity;
     protected Vector2D target;
@@ -140,12 +140,6 @@ public abstract class Ghost extends Entity implements Collidable  {
         updateTarget();
         changeVelocity();
         move(delta);
-    }
-
-    @Override
-    public Rectangle getCollisionBox() {
-        GamePanel gamePanel = GameController.getInstance().getGamePanel();
-        return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
     }
 }
 
