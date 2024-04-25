@@ -35,7 +35,7 @@ public class TileMap implements Renderable {
                 double rotation = 0;
                 if (mapItemsCode == 1) {
                     gc.setFill(Color.YELLOW);
-                    gc.fillOval(xPadding + (j+0.5) * unitWidth, yPadding + (i+0.5) * unitWidth, 4, 4);
+                    gc.fillOval(xPadding + (j + 0.5) * unitWidth, yPadding + (i + 0.5) * unitWidth, 4, 4);
                 }
                 if (mapCode == 0) {
                     img = wallParallelSprite;

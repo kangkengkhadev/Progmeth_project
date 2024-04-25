@@ -43,7 +43,6 @@ public class Map {
                     currentRow++;
                 }
                 br.close();
-                System.out.println(Arrays.deepToString(mapItemsInfo));
             } else {
                 System.err.println("File not found: " + filePath);
             }
@@ -61,8 +60,10 @@ public class Map {
         return mapItemsInfo;
     }
 
-    public void setMapItemsInfo(int x,int y,int val){
-        this.mapItemsInfo[x][y] = val;
+    public void setMapItemsInfo(double x,double y,int val){
+        int row = (int) y;
+        int col = (int) x;
+        this.mapItemsInfo[row][col] = val;
     }
 
     public int[][] getMapInfo() {

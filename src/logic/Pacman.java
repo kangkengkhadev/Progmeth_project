@@ -103,7 +103,7 @@ public class Pacman extends Entity implements Collidable {
         }
     }
 
-    private void startInvincible(long duration) {
+    public void startInvincible(long duration) {
         state = PacmanState.INVINCIBLE;
         Thread invincibleThread = new Thread(() -> {
             try {
@@ -130,10 +130,12 @@ public class Pacman extends Entity implements Collidable {
             }
         }
 
-        Vector2D itemCentroidPosition = new Vector2D((int)getCentroid().getX() + 0.5,(int)getCentroid().getY() + 0.5);
-        Vector2D vec = new Vector2D(getCentroid().getX() - itemCentroidPosition.getX(), getCentroid().getY() - itemCentroidPosition.getX());
-        if(vec.getLength() < Config.PACMAN_COLLISION_RADIUS){
-            GameController.getInstance().getMap().setMapItemsInfo((int) itemCentroidPosition.getY(),(int) itemCentroidPosition.getX(),0);
+        Map map = GameController.getInstance().getMap();
+        Vector2D centeredMapPosition = new Vector2D((int)getCentroid().getX() + 0.5, (int)getCentroid().getY() + 0.5);
+        Vector2D vec = new Vector2D(centeredMapPosition.getX() - getCentroid().getX(), centeredMapPosition.getY() - getCentroid().getY());
+        int itemCode = map.getMapItemsInfo()[(int)centeredMapPosition.getY()][(int)centeredMapPosition.getX()];
+        if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+            map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
         }
     }
 
