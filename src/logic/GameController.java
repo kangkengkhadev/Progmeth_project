@@ -8,6 +8,8 @@ import util.Config;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
 public class GameController {
     private static final GameController instance = new GameController();
@@ -20,8 +22,7 @@ public class GameController {
     private GamePanel gamePanel;
     private TileMap tileMap;
     private int score = 0;
-
-
+    private int numItems = 1;
 
     public void start(GraphicsContext gc) {
         // Get the game panel
@@ -46,9 +47,9 @@ public class GameController {
         addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
         addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
         addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
-        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+//        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+//        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+//        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
     public void update(double delta) {
@@ -57,6 +58,32 @@ public class GameController {
         // Update the ghosts
         for (Ghost ghost : ghosts) {
             ghost.update(delta);
+        }
+        if(score == (numItems*49)){
+            ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
+            for (int i = 0; i < map.getRow(); i++) {
+                for (int j = 0; j < map.getCol(); j++) {
+                    int mapCode = map.getMapItemsInfo()[i][j];
+                    if(mapCode==-1 && ((int)pacman.getPosition().getX() != j || (int)pacman.getPosition().getY() != i)){
+                        ArrayList<Integer> pair = new ArrayList<Integer>();
+                        pair.add(i);
+                        pair.add(j);
+                        candidateItems.add(pair);
+                    }
+                }
+            }
+            if(!candidateItems.isEmpty()){
+                Random rand = new Random();
+                int randomIndex = rand.nextInt(candidateItems.size());
+                ArrayList<Integer> randomItem = candidateItems.get(randomIndex);
+                ArrayList<Item> candidateClassItems = new ArrayList<Item>();
+                candidateClassItems.add(new Cloak(randomItem.get(1),randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+                candidateClassItems.add(new FreezePotion(randomItem.get(1),randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+                int candidateItemUse = rand.nextInt(candidateClassItems.size());
+                addNewItem(candidateClassItems.get(candidateItemUse));
+                map.setMapItemsInfo(randomItem.get(0),randomItem.get(1),2);
+                numItems++;
+            }
         }
 
     }

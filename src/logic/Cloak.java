@@ -10,6 +10,8 @@ public class Cloak extends Item{
 
     @Override
     public void useEffect() {
+        Vector2D discretePosition = new Vector2D((int)position.getX(), (int)position.getY());
         GameController.getInstance().getPacman().startInvincible(Config.INVINCIBILITY_DURATION);
+        GameController.getInstance().getMap().getMapItemsInfo()[(int)discretePosition.getY()][(int)discretePosition.getX()] = -1;
     }
 }
