@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99fe93bf-1359-4ca8-a9f4-4cc9711ecb69" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/res/Cloak.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_4_2024_AD_20_41_[Changes]/GreenGhost.PNG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_4_2024_AD_20_41_[Changes]/OrangeGhost.PNG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_4_2024_AD_20_41_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_4_2024_AD_20_41__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/grid_data_item_out.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Cloak.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Cloak.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/Collidable.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/Ghost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Ghost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/Pacman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Pacman.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/TileMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/TileMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Config.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -57,7 +55,7 @@
     "last_opened_file_path": "D:/Progmeth_project",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
+    "project.structure.side.proportion": "0.20574713",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
@@ -65,7 +63,7 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="project" />
-      <option name="VM_PARAMETERS" value="--module-path $USER_HOME$/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml,javafx.graphics" />
+      <option name="VM_PARAMETERS" value="--module-path $USER_HOME$/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

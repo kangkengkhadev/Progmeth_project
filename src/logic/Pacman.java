@@ -7,10 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import util.Config;
 import util.InputUtility;
-
 import java.util.ArrayList;
 
-public class Pacman extends Entity implements Collidable {
+
+public class Pacman extends Entity {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
     private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
     private static Image spriteHeart = new Image(ClassLoader.getSystemResource("Heart.png").toString());
@@ -60,7 +60,7 @@ public class Pacman extends Entity implements Collidable {
         }
         gc.setFont(Font.font("Arial", 20));
         gc.setFill(Color.WHITE);
-        gc.fillText("State: " + state,
+        gc.fillText("Score: " + GameController.getInstance().getScore(),
                 position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 20);
     }
@@ -138,6 +138,7 @@ public class Pacman extends Entity implements Collidable {
         int itemCode = map.getMapItemsInfo()[(int)centeredMapPosition.getY()][(int)centeredMapPosition.getX()];
         if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
+            GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
         }
 
         ArrayList<Item> deletedItems = new ArrayList<Item>();
@@ -203,12 +204,6 @@ public class Pacman extends Entity implements Collidable {
                 setY(position.getY() + speedMultiplier * velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             }
         }
-    }
-
-    @Override
-    public Rectangle getCollisionBox() {
-        GamePanel gamePanel = GameController.getInstance().getGamePanel();
-        return new Rectangle(position.getX() * gamePanel.getUnitWidth() + gamePanel.getXPadding(), position.getY() * gamePanel.getUnitWidth() + gamePanel.getYPadding(), width, height);
     }
 
     public Vector2D getVelocity() {
