@@ -1,8 +1,9 @@
-package logic.entity.ghost;
+package logic.entity.ghost.state;
 
 import logic.GameController;
 import logic.entity.Pacman;
 import logic.Vector2D;
+import logic.entity.ghost.BaseGhost;
 import logic.fsm.BaseState;
 import util.Config;
 

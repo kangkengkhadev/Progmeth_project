@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.Entity;
+import logic.entity.ghost.state.ChaseState;
 import logic.fsm.FiniteStateMachine;
 import util.Config;
 

@@ -1,6 +1,7 @@
-package logic.entity.ghost;
+package logic.entity.ghost.state;
 
 import logic.Vector2D;
+import logic.entity.ghost.BaseGhost;
 import logic.fsm.BaseState;
 import util.Config;
 
