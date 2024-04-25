@@ -9,14 +9,14 @@ import logic.entity.Entity;
 import logic.fsm.FiniteStateMachine;
 import util.Config;
 
-public abstract class Ghost extends Entity {
+public abstract class BaseGhost extends Entity {
     protected Image sprite;
     protected Vector2D velocity;
     protected Vector2D target;
     private double speed;
     private FiniteStateMachine fsm;
 
-    public Ghost(double x, double y, double width, double height, double speed, String imgPath) {
+    public BaseGhost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height);
         // Load the image
         sprite = new Image(ClassLoader.getSystemResource(imgPath).toString());

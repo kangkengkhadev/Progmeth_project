@@ -7,11 +7,11 @@ import logic.entity.Entity;
 import logic.GameController;
 import util.Config;
 
-public abstract class Item extends Entity {
+public abstract class BaseItem extends Entity {
     private Image sprite;
     private boolean isDestroyed;
 
-    public Item(double x, double y, double width, double height, String imagePath) {
+    public BaseItem(double x, double y, double width, double height, String imagePath) {
         super(x, y, width, height);
         this.sprite = new Image(ClassLoader.getSystemResource(imagePath).toString());
         this.isDestroyed = false;

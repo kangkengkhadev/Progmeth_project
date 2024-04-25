@@ -5,9 +5,9 @@ import logic.fsm.BaseState;
 import util.Config;
 
 public class ScatterState extends BaseState {
-    Ghost ghost;
+    BaseGhost ghost;
 
-    public ScatterState(Ghost ghost) {
+    public ScatterState(BaseGhost ghost) {
         this.ghost = ghost;
     }
 

@@ -6,9 +6,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
-import logic.entity.Entity;
-import logic.entity.ghost.Ghost;
-import logic.entity.item.Item;
+import logic.entity.ghost.BaseGhost;
+import logic.entity.item.BaseItem;
 import util.Config;
 import util.InputUtility;
 import java.util.ArrayList;
@@ -127,7 +126,7 @@ public class Pacman extends Entity {
 
     private void collisionCheck() {
         if (state == PacmanState.INVINCIBLE) return;
-        for (Ghost ghost : GameController.getInstance().getGhosts()) {
+        for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
             if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
                 health--;
@@ -145,8 +144,8 @@ public class Pacman extends Entity {
             GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
         }
 
-        ArrayList<Item> deletedItems = new ArrayList<Item>();
-        for(Item item : GameController.getInstance().getItems()){
+        ArrayList<BaseItem> deletedItems = new ArrayList<BaseItem>();
+        for(BaseItem item : GameController.getInstance().getItems()){
             Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
             Vector2D itemVec = new Vector2D(itemPosition.getX() - getCentroid().getX(), itemPosition.getY() - getCentroid().getY());
             if (itemVec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
@@ -155,7 +154,7 @@ public class Pacman extends Entity {
                 deletedItems.add(item);
             }
         }
-        for(Item item : deletedItems){
+        for(BaseItem item : deletedItems){
             GameController.getInstance().getItems().remove(item);
         }
 //        System.out.println(GameController.getInstance().getItems().toArray().length);

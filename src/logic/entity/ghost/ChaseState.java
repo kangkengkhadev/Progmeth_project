@@ -7,9 +7,9 @@ import logic.fsm.BaseState;
 import util.Config;
 
 public class ChaseState extends BaseState {
-    Ghost ghost;
+    BaseGhost ghost;
 
-    public ChaseState(Ghost ghost) {
+    public ChaseState(BaseGhost ghost) {
         this.ghost = ghost;
     }
 

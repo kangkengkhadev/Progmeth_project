@@ -4,12 +4,12 @@ package logic;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import logic.entity.Pacman;
-import logic.entity.ghost.Ghost;
+import logic.entity.ghost.BaseGhost;
 import logic.entity.ghost.GreenGhost;
 import logic.entity.ghost.OrangeGhost;
 import logic.entity.ghost.YellowGhost;
 import logic.entity.item.Cloak;
-import logic.entity.item.Item;
+import logic.entity.item.BaseItem;
 import render.Renderable;
 import util.Config;
 
@@ -20,8 +20,8 @@ public class GameController {
     private static final GameController instance = new GameController();
     private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
     private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
-    private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<BaseGhost> ghosts = new ArrayList<BaseGhost>();
+    private ArrayList<BaseItem> items = new ArrayList<BaseItem>();
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
@@ -62,7 +62,7 @@ public class GameController {
         // Update the pacman
         pacman.update(delta);
         // Update the ghosts
-        for (Ghost ghost : ghosts) {
+        for (BaseGhost ghost : ghosts) {
             ghost.update(delta);
         }
 
@@ -79,11 +79,11 @@ public class GameController {
         renderEntities(gc);
     }
 
-    private void addNewGhost(Ghost ghost) {
+    private void addNewGhost(BaseGhost ghost) {
         ghosts.add(ghost);
         addNewEntity(ghost);
     }
-    private void addNewItem(Item item) {
+    private void addNewItem(BaseItem item) {
         items.add(item);
         addNewEntity(item);
     }
@@ -124,13 +124,13 @@ public class GameController {
         return pacman;
     }
 
-    public ArrayList<Ghost> getGhosts() {
+    public ArrayList<BaseGhost> getGhosts() {
         return ghosts;
     }
-    public ArrayList<Item> getItems() {
+    public ArrayList<BaseItem> getItems() {
         return items;
     }
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(ArrayList<BaseItem> items) {
         this.items = items;
     }
     public int getScore() {
