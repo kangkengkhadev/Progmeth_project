@@ -103,7 +103,7 @@ public class Pacman extends Entity implements Collidable {
         }
     }
 
-    private void startInvincible(long duration) {
+    public void startInvincible(long duration) {
         state = PacmanState.INVINCIBLE;
         Thread invincibleThread = new Thread(() -> {
             try {

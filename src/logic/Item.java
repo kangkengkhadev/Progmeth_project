@@ -50,4 +50,9 @@ public abstract class Item extends Entity implements Renderable, Collidable {
     public Rectangle getCollisionBox() {
         return new Rectangle(position.getX(), position.getY(), width, height);
     }
+
+    public void useEffect(){
+
+    }
+
 }

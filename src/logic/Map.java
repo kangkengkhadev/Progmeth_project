@@ -43,7 +43,6 @@ public class Map {
                     currentRow++;
                 }
                 br.close();
-                System.out.println(Arrays.deepToString(mapItemsInfo));
             } else {
                 System.err.println("File not found: " + filePath);
             }

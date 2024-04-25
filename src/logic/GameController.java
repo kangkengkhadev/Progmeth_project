@@ -19,6 +19,7 @@ public class GameController {
     private GamePanel gamePanel;
     private TileMap tileMap;
 
+
     public void start(GraphicsContext gc) {
         // Get the game panel
         gamePanel = (GamePanel)gc.getCanvas();
