@@ -15,7 +15,9 @@ public class Config {
     public static final int TILE_MAP_Z_INDEX = 0;
     public static final double MOVEMENT_OFFSET_THRESHOLD = 0.005;
     public static final int GHOST_X_ORIGIN = 23;
-    public static final int GHOST_Y_ORIGIN = 17;
+    public static final int GHOST_Y_ORIGIN = 10;
+    public static final double GHOST_FRIGHTENED_SPEED_MULTIPLIER = 0.5;
+    public static final double GHOST_RESPAWN_SPEED_MULTIPLIER = 2;
     public static final int GHOST_FRIGHTENED_DURATION = 8;
     public static final int INVINCIBILITY_DURATION = 5;
     public static final double NORMAL_GHOST_SPEED = 0.11;
