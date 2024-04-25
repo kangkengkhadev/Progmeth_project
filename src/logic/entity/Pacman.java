@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
 import logic.entity.ghost.TankGhost;
+import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import util.Config;
 import util.InputUtility;
@@ -118,7 +119,8 @@ public class Pacman extends Entity {
                 if (state == PacmanState.INVINCIBLE) {
                     state = PacmanState.NORMAL;
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
         });
@@ -129,15 +131,22 @@ public class Pacman extends Entity {
         if (state == PacmanState.INVINCIBLE) return;
         for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
-            if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
-                if(ghost instanceof TankGhost){
-                    health -= 2;
-                }else{
-                    health --;
+
+            if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS ) {
+                if (ghost.getFsm().getCurrentStateName().equals("FrightenState")
+                    || ghost.getFsm().getCurrentStateName().equals("RespawnState")
+                    || ghost.getFsm().getCurrentStateName().equals("SpawnState")) {
+                    ghost.getFsm().changeState(new RespawnState(ghost));
+                } else {
+                    if(ghost instanceof TankGhost){
+                        health -= 2;
+                    }else{
+                        health --;
+                    }
+                    startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
+                    break;
                 }
 
-                startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
-                break;
             }
         }
 

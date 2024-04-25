@@ -45,7 +45,7 @@ public class ChaseState extends BaseState {
         Thread chaseThread = new Thread(() -> {
             try {
                 Thread.sleep(chaseDuration * 1000);
-                if (ghost.getFsm().getCurrentState().getClass().getSimpleName().equals("ChaseState")) {
+                if (ghost.getFsm().getCurrentStateName().equals("ChaseState")) {
                     ghost.getFsm().changeState(new ScatterState(ghost));
                 }
             } catch (InterruptedException e) {
