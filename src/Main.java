@@ -29,38 +29,36 @@ public class Main extends Application {
         stage.setTitle("Pacbubu");
         stage.setScene(scene);
 
-        root.setId("pane");
-        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
-
-
-        Label label = new Label("Pacbubu");
-        label.setStyle("-fx-font-size: 200px ");
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(10);
-        label.setTextAlignment(TextAlignment.CENTER);
-
-
-        Button btn1 = new Button("Play");
-        Button btn2 = new Button("Exit");
-        btn1.setAlignment(Pos.CENTER);
-        btn2.setAlignment(Pos.CENTER);
-        btn1.setPadding(new Insets(10, 40, 2, 40));
-        btn1.setStyle("-fx-font-size: 80px");
-        btn2.setPadding(new Insets(2, 40, 10, 40));
-        btn2.setStyle("-fx-font-size: 80px");
-
-
-        root.getChildren().add(label);
-        root.getChildren().add(btn1);
-        root.getChildren().add(btn2);
-
+//        root.setId("pane");
+//        scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
+//
+//        Label label = new Label("Pacbubu");
+//        label.setStyle("-fx-font-size: 200px ");
+//        root.setAlignment(Pos.CENTER);
+//        root.setSpacing(10);
+//        label.setTextAlignment(TextAlignment.CENTER);
+//
+//        Button btn1 = new Button("Play");
+//        Button btn2 = new Button("Exit");
+//        btn1.setAlignment(Pos.CENTER);
+//        btn2.setAlignment(Pos.CENTER);
+//        btn1.setPadding(new Insets(10, 40, 2, 40));
+//        btn1.setStyle("-fx-font-size: 80px");
+//        btn2.setPadding(new Insets(2, 40, 10, 40));
+//        btn2.setStyle("-fx-font-size: 80px");
+//
+//        root.getChildren().add(label);
+//        root.getChildren().add(btn1);
+//        root.getChildren().add(btn2);
 
         // Setup the game panel (Canvas)
         GamePanel gamePanel = new GamePanel(1280, 720);
         GraphicsContext gc = gamePanel.getGraphicsContext2D();
-
+        root.getChildren().add(gamePanel);
+        gamePanel.requestFocus();
         // Start the game
         GameController.getInstance().start(gc);
+
         // Start the game loop
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
@@ -80,17 +78,16 @@ public class Main extends Application {
                 }
             }
         };
+        gameLoop.start();
 
-        btn1.setOnAction(e -> {
-            root.getChildren().removeAll(btn1, btn2, label);
-            root.getChildren().add(gamePanel);
-            gamePanel.requestFocus();
-            gameLoop.start();
-        });
-
-        btn2.setOnAction(e -> {
-            ((Stage) root.getScene().getWindow()).close();
-        });
+//        btn1.setOnAction(e -> {
+//            root.getChildren().removeAll(btn1, btn2, label);
+//            root.getChildren().add(gamePanel);
+//        });
+//
+//        btn2.setOnAction(e -> {
+//            ((Stage) root.getScene().getWindow()).close();
+//        });
 
         stage.show();
     }

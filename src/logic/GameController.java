@@ -10,6 +10,7 @@ import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
 import render.Renderable;
 import util.Config;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -29,7 +30,7 @@ public class GameController {
 
     public void start(GraphicsContext gc) {
         // Get the game panel
-        gamePanel = (GamePanel)gc.getCanvas();
+        gamePanel = (GamePanel) gc.getCanvas();
         // Set the comparator for sorting entities
         comparator = (Renderable p, Renderable q) -> {
             // Higher zIndex means the entity is rendered on top
@@ -57,19 +58,13 @@ public class GameController {
 //        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
-    public void update(double delta) {
-        // Update the pacman
-        pacman.update(delta);
-        // Update the ghosts
-        for (BaseGhost ghost : ghosts) {
-            ghost.update(delta);
-        }
-        if(score == (numItems*9)){
+    private void spawnItem() {
+        if (score == (numItems * 49)) {
             ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {
                     int mapCode = map.getMapItemsInfo()[i][j];
-                    if(mapCode==-1 && ((int)pacman.getPosition().getX() != j || (int)pacman.getPosition().getY() != i)){
+                    if (mapCode == -1 && ((int) pacman.getPosition().getX() != j || (int) pacman.getPosition().getY() != i)) {
                         ArrayList<Integer> pair = new ArrayList<Integer>();
                         pair.add(i);
                         pair.add(j);
@@ -77,19 +72,27 @@ public class GameController {
                     }
                 }
             }
-            if(!candidateItems.isEmpty()){
+            if (!candidateItems.isEmpty()) {
                 Random rand = new Random();
                 int randomIndex = rand.nextInt(candidateItems.size());
                 ArrayList<Integer> randomItem = candidateItems.get(randomIndex);
                 ArrayList<BaseItem> candidateClassItems = new ArrayList<BaseItem>();
-                candidateClassItems.add(new Cloak(randomItem.get(1),randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-                candidateClassItems.add(new FreezePotion(randomItem.get(1),randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+                candidateClassItems.add(new Cloak(randomItem.get(1), randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+                candidateClassItems.add(new FreezePotion(randomItem.get(1), randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
                 int candidateItemUse = rand.nextInt(candidateClassItems.size());
                 addNewItem(candidateClassItems.get(candidateItemUse));
-                map.setMapItemsInfo(randomItem.get(1),randomItem.get(0),2);
+                map.setMapItemsInfo(randomItem.get(1), randomItem.get(0), 2);
                 numItems++;
             }
         }
+    }
+
+    public void update(double delta) {
+        pacman.update(delta);
+        for (BaseGhost ghost : ghosts) {
+            ghost.update(delta);
+        }
+        spawnItem();
     }
 
     public void render(GraphicsContext gc) {
@@ -107,6 +110,7 @@ public class GameController {
         ghosts.add(ghost);
         addNewEntity(ghost);
     }
+
     private void addNewItem(BaseItem item) {
         items.add(item);
         addNewEntity(item);
@@ -151,12 +155,15 @@ public class GameController {
     public ArrayList<BaseGhost> getGhosts() {
         return ghosts;
     }
+
     public ArrayList<BaseItem> getItems() {
         return items;
     }
+
     public void setItems(ArrayList<BaseItem> items) {
         this.items = items;
     }
+
     public int getScore() {
         return score;
     }

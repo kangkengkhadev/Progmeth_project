@@ -43,6 +43,7 @@ public class ChaseState extends BaseState {
             case "GreenGhost" -> Config.GREEN_GHOST_CHASE_DURATION;
             case "TankGhost" -> Config.TANK_GHOST_CHASE_DURATION;
             case "SwiftGhost" -> Config.SWIFT_GHOST_CHASE_DURATION;
+            case "ScaffGhost" -> Config.SCAFF_GHOST_CHASE_DURATION;
             default -> 0;
         };
 
