@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.Entity;
 import logic.entity.ghost.state.ChaseState;
+import logic.entity.ghost.state.FreezeState;
 import logic.entity.ghost.state.FrightenState;
 import logic.entity.ghost.state.SpawnState;
 import logic.fsm.FiniteStateMachine;
@@ -16,6 +17,7 @@ public abstract class BaseGhost extends Entity {
     private Image sprite;
     private static Image frightenedSprite = new Image(ClassLoader.getSystemResource("FrightenedGhost.png").toString());
     private static Image ghostEyeSprite = new Image(ClassLoader.getSystemResource("GhostEye.png").toString());
+    private static Image freezeOverlaySprite = new Image(ClassLoader.getSystemResource("FreezeOverlay.png").toString());
     protected Vector2D velocity;
     protected Vector2D target;
     private double speed;
@@ -30,6 +32,10 @@ public abstract class BaseGhost extends Entity {
         target = new Vector2D(0, 0);
         this.speed = speed;
         fsm = new FiniteStateMachine(new SpawnState(this));
+    }
+
+    public void startFreeze() {
+        fsm.changeState(new FreezeState(this));
     }
 
     public void startFrighten() {
@@ -53,19 +59,15 @@ public abstract class BaseGhost extends Entity {
                 position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                 width,
                 height);
-
-        gc.setFill(switch (this.getClass().getSimpleName()) {
-            case "OrangeGhost" -> Color.ORANGE;
-            case "YellowGhost" -> Color.YELLOW;
-            case "GreenGhost" -> Color.GREEN;
-            case "TankGhost" -> Color.PINK;
-            default -> Color.BLACK;
-        });
-
-        gc.fillRect((target.getX() + 0.5) * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                (target.getY() + 0.5) * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                5,
-                5);
+        if (fsm.getCurrentStateName().equals("FreezeState")) {
+            gc.setGlobalAlpha(0.8);
+            gc.drawImage(freezeOverlaySprite,
+                    position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
+                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
+                    width,
+                    height);
+            gc.setGlobalAlpha(1.0);
+        }
 
         gc.setFill(Color.WHITE);
         gc.setFont(new Font("Arial", 20));
@@ -126,6 +128,7 @@ public abstract class BaseGhost extends Entity {
         double speedMultiplier = switch (fsm.getCurrentStateName()) {
             case "FrightenState" -> Config.GHOST_FRIGHTENED_SPEED_MULTIPLIER;
             case "RespawnState" -> Config.GHOST_RESPAWN_SPEED_MULTIPLIER;
+            case "FreezeState" -> Config.GHOST_FREEZE_SPEED_MULTIPLIER;
             default -> 1;
         };
 

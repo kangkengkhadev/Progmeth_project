@@ -14,18 +14,9 @@ public class FreezePotion extends BaseItem {
     }
     @Override
     public void useEffect() {
-        ArrayList<BaseGhost> closedGhost = new ArrayList<BaseGhost>();
         for(BaseGhost ghost : GameController.getInstance().getGhosts()){
-            Vector2D ghostPosition = new Vector2D((int)ghost.getCentroid().getX() + 0.5, (int)ghost.getCentroid().getY() + 0.5);
-            Vector2D ghostVec = new Vector2D(ghostPosition.getX() - getCentroid().getX(), ghostPosition.getY() - getCentroid().getY());
-            if (ghostVec.getLength() < Config.PACMAN_COLLISION_RADIUS*20  && !(ghost instanceof ScaffGhost)) {
-                closedGhost.add(ghost);
-            }
-        }
-        for(BaseGhost ghost : closedGhost){
-            if(!(ghost instanceof ScaffGhost)){
-                ghost.setDestroyed(true);
-                GameController.getInstance().getGhosts().remove(ghost);
+            if (!(ghost instanceof ScaffGhost)){
+                ghost.startFreeze();
             }
         }
     }
