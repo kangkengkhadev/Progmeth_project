@@ -129,7 +129,7 @@ public abstract class BaseGhost extends Entity {
             default -> 1;
         };
 
-        if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost") {
+        if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost")) {
             speedMultiplier = Config.SWIFT_GHOST_SPEED;
         }
 

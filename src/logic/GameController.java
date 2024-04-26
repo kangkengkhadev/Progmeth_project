@@ -58,19 +58,8 @@ public class GameController {
 //        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
-<<<<<<< HEAD
     private void spawnItem() {
         if (score == (numItems * 49)) {
-=======
-    public void update(double delta) {
-        // Update the pacman
-        pacman.update(delta);
-        // Update the ghosts
-        for (BaseGhost ghost : ghosts) {
-            ghost.update(delta);
-        }
-        if(score == (numItems*9)){
->>>>>>> 80f0636061f5cce6166f831ad73f85c01fd7d27f
             ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {
@@ -96,9 +85,6 @@ public class GameController {
                 numItems++;
             }
         }
-    }
-
-    private void spawnGhost() {
     }
 
     public void update(double delta) {
