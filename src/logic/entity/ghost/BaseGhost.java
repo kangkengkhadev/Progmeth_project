@@ -131,6 +131,13 @@ public abstract class BaseGhost extends Entity {
             default -> 1;
         };
 
+        if (speedMultiplier == 1) {
+            speedMultiplier = switch (getClass().getSimpleName()) {
+                case "SwiftGhost" -> Config.SWIFT_GHOST_SPEED;
+                default -> 1;
+            };
+        }
+
         if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
             setY(currentDiscretePosition.getY());
             if (currentDirection == Direction.LEFT) {

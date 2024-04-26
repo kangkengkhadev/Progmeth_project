@@ -3,6 +3,7 @@ package logic.entity.item;
 import logic.GameController;
 import logic.Vector2D;
 import logic.entity.ghost.BaseGhost;
+import logic.entity.ghost.ScaffGhost;
 import util.Config;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class FreezePotion extends BaseItem {
         for(BaseGhost ghost : GameController.getInstance().getGhosts()){
             Vector2D ghostPosition = new Vector2D((int)ghost.getCentroid().getX() + 0.5, (int)ghost.getCentroid().getY() + 0.5);
             Vector2D ghostVec = new Vector2D(ghostPosition.getX() - getCentroid().getX(), ghostPosition.getY() - getCentroid().getY());
-            if (ghostVec.getLength() < Config.PACMAN_COLLISION_RADIUS*20) {
+            if (ghostVec.getLength() < Config.PACMAN_COLLISION_RADIUS*20  && !(ghost instanceof ScaffGhost)) {
                 closedGhost.add(ghost);
             }
         }

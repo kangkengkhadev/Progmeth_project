@@ -20,6 +20,7 @@ public class ScatterState extends BaseState {
             case "GreenGhost" -> new Vector2D(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN);
             case "TankGhost" -> new Vector2D(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN);
             case "SwiftGhost" -> new Vector2D(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN);
+            case "ScaffGhost" -> new Vector2D(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN);
             default -> null;
         };
 
@@ -34,6 +35,7 @@ public class ScatterState extends BaseState {
             case "GreenGhost" -> Config.GREEN_GHOST_SCATTER_DURATION;
             case "TankGhost" -> Config.TANK_GHOST_SCATTER_DURATION;
             case "SwiftGhost" -> Config.SWIFT_GHOST_SCATTER_DURATION;
+            case "ScaffGhost" -> Config.SCAFF_GHOST_SCATTER_DURATION;
             default -> 0;
         };
 
