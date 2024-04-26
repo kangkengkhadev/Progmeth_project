@@ -4,10 +4,7 @@ package logic;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import logic.entity.Pacman;
-import logic.entity.ghost.BaseGhost;
-import logic.entity.ghost.GreenGhost;
-import logic.entity.ghost.OrangeGhost;
-import logic.entity.ghost.YellowGhost;
+import logic.entity.ghost.*;
 import logic.entity.item.Cloak;
 import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
@@ -51,16 +48,29 @@ public class GameController {
         // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
         // Create the ghosts
-        addNewGhost(new YellowGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
-        // addNewGhost(new OrangeGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
-        // addNewGhost(new GreenGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
-//        addNewItem(new Cloak(1,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
+        addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
+        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
+        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+        addNewGhost(new TankGhost(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
+        addNewGhost(new TankGhost(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
+        addNewGhost(new ScaffGhost(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
 //        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
 //        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
+<<<<<<< HEAD
     private void spawnItem() {
         if (score == (numItems * 49)) {
+=======
+    public void update(double delta) {
+        // Update the pacman
+        pacman.update(delta);
+        // Update the ghosts
+        for (BaseGhost ghost : ghosts) {
+            ghost.update(delta);
+        }
+        if(score == (numItems*9)){
+>>>>>>> 80f0636061f5cce6166f831ad73f85c01fd7d27f
             ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {

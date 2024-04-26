@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
+import logic.entity.ghost.TankGhost;
 import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import util.Config;
@@ -118,7 +119,8 @@ public class Pacman extends Entity {
                 if (state == PacmanState.INVINCIBLE) {
                     state = PacmanState.NORMAL;
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
         });
@@ -129,16 +131,22 @@ public class Pacman extends Entity {
         if (state == PacmanState.INVINCIBLE) return;
         for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
+
             if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS ) {
                 if (ghost.getFsm().getCurrentStateName().equals("FrightenState")
                     || ghost.getFsm().getCurrentStateName().equals("RespawnState")
                     || ghost.getFsm().getCurrentStateName().equals("SpawnState")) {
                     ghost.getFsm().changeState(new RespawnState(ghost));
                 } else {
-                    health--;
+                    if(ghost instanceof TankGhost){
+                        health -= 2;
+                    }else{
+                        health --;
+                    }
                     startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
                     break;
                 }
+
             }
         }
 
@@ -156,6 +164,7 @@ public class Pacman extends Entity {
             }
         }
 
+
         ArrayList<BaseItem> deletedItems = new ArrayList<BaseItem>();
         for(BaseItem item : GameController.getInstance().getItems()){
             Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
@@ -169,6 +178,8 @@ public class Pacman extends Entity {
         for(BaseItem item : deletedItems){
             GameController.getInstance().getItems().remove(item);
         }
+
+
     }
 
     public void update(double delta) {

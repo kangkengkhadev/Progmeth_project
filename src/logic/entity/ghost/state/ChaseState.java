@@ -19,12 +19,17 @@ public class ChaseState extends BaseState {
         Pacman player = GameController.getInstance().getPacman();
         Vector2D playerDiscretePosition = new Vector2D((int)player.getPosition().getX(), (int)player.getPosition().getY());
         Vector2D playerVelocity = player.getVelocity();
-
+        Vector2D targetOfGreenGhost = new Vector2D(playerDiscretePosition.getX() + playerVelocity.getX() / Config.PACMAN_SPEED,
+                playerDiscretePosition.getY() + playerVelocity.getY() / Config.PACMAN_SPEED);
+        int randomXPosition = (int) (Math.random() * Config.MAP_X_DIMENSION);
+        int randomYPosition = (int) (Math.random() * Config.MAP_Y_DIMENSION);
         Vector2D newTarget = switch (ghost.getClass().getSimpleName()) {
             case "YellowGhost" -> new Vector2D(playerDiscretePosition.getX(), playerDiscretePosition.getY() - 1);
             case "OrangeGhost" -> new Vector2D(playerDiscretePosition.getX(), playerDiscretePosition.getY());
-            case "GreenGhost" -> new Vector2D(playerDiscretePosition.getX() + playerVelocity.getX() / Config.PACMAN_SPEED,
-                    playerDiscretePosition.getY() + playerVelocity.getY() / Config.PACMAN_SPEED);
+            case "GreenGhost" -> targetOfGreenGhost;
+            case "TankGhost" -> new Vector2D(playerDiscretePosition.getX()-(targetOfGreenGhost.getX()-ghost.getPosition().getX()),playerDiscretePosition.getY()+(targetOfGreenGhost.getY()-ghost.getPosition().getX()));
+            case "SwiftGhost" -> new Vector2D(playerDiscretePosition.getX(), playerDiscretePosition.getY() + 1);
+            case "ScaffGhost" -> new Vector2D(randomXPosition, randomYPosition);
             default -> null;
         };
         ghost.setTarget(newTarget);
@@ -36,6 +41,8 @@ public class ChaseState extends BaseState {
             case "YellowGhost" -> Config.YELLOW_GHOST_CHASE_DURATION;
             case "OrangeGhost" -> Config.ORANGE_GHOST_CHASE_DURATION;
             case "GreenGhost" -> Config.GREEN_GHOST_CHASE_DURATION;
+            case "TankGhost" -> Config.TANK_GHOST_CHASE_DURATION;
+            case "SwiftGhost" -> Config.SWIFT_GHOST_CHASE_DURATION;
             default -> 0;
         };
 

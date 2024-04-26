@@ -58,6 +58,7 @@ public abstract class BaseGhost extends Entity {
             case "OrangeGhost" -> Color.ORANGE;
             case "YellowGhost" -> Color.YELLOW;
             case "GreenGhost" -> Color.GREEN;
+            case "TankGhost" -> Color.PINK;
             default -> Color.BLACK;
         });
 
@@ -127,6 +128,10 @@ public abstract class BaseGhost extends Entity {
             case "RespawnState" -> Config.GHOST_RESPAWN_SPEED_MULTIPLIER;
             default -> 1;
         };
+
+        if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost") {
+            speedMultiplier = Config.SWIFT_GHOST_SPEED;
+        }
 
         double offSetThresholdMultiplier = switch (fsm.getCurrentStateName()) {
             case "RespawnState" -> Config.GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER;
