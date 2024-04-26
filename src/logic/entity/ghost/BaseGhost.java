@@ -15,6 +15,7 @@ import util.Config;
 public abstract class BaseGhost extends Entity {
     private Image sprite;
     private static Image frightenedSprite = new Image(ClassLoader.getSystemResource("FrightenedGhost.png").toString());
+    private static Image ghostEyeSprite = new Image(ClassLoader.getSystemResource("GhostEye.png").toString());
     protected Vector2D velocity;
     protected Vector2D target;
     private double speed;
@@ -42,20 +43,16 @@ public abstract class BaseGhost extends Entity {
 
     @Override
     public void draw(GraphicsContext gc) {
-        // Draw the sprite at the current position scaled to the unit width
-        if (fsm.getCurrentStateName().equals("FrightenState")) {
-            gc.drawImage(frightenedSprite,
-                    position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                    width,
-                    height);
-        } else {
-            gc.drawImage(sprite,
-                    position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                    width,
-                    height);
-        }
+        Image sprite = switch (fsm.getCurrentStateName()) {
+            case "FrightenState" -> frightenedSprite;
+            case "RespawnState" -> ghostEyeSprite;
+            default -> this.sprite;
+        };
+        gc.drawImage(sprite,
+                position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
+                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
+                width,
+                height);
 
         gc.setFill(switch (this.getClass().getSimpleName()) {
             case "OrangeGhost" -> Color.ORANGE;
@@ -77,7 +74,7 @@ public abstract class BaseGhost extends Entity {
     }
 
     private void changeVelocity() {
-        Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
+        Vector2D currentDiscretePosition = new Vector2D((int) position.getX(), (int) position.getY());
         Map map = GameController.getInstance().getMap();
         if (position.equals(currentDiscretePosition)) {
             Direction currentDirection = velocity.getCurrentDirection();
@@ -101,7 +98,8 @@ public abstract class BaseGhost extends Entity {
                 }
 
                 Vector2D nextDiscretePosition = new Vector2D(currentDiscretePosition.getX() + offset.getX(), currentDiscretePosition.getY() + offset.getY());
-                if (nextDiscretePosition.equals(new Vector2D(23, 10)) && !fsm.getCurrentStateName().equals("RespawnState")) continue;
+                if (nextDiscretePosition.equals(new Vector2D(23, 10)) && !fsm.getCurrentStateName().equals("RespawnState"))
+                    continue;
                 Vector2D vec = new Vector2D(target.getX() - nextDiscretePosition.getX(), target.getY() - nextDiscretePosition.getY());
 
                 if (vec.getLength() < bestDistance) {
@@ -122,7 +120,7 @@ public abstract class BaseGhost extends Entity {
 
     private void move(double delta) {
         Direction currentDirection = velocity.getCurrentDirection();
-        Vector2D currentDiscretePosition = new Vector2D((int)position.getX(), (int)position.getY());
+        Vector2D currentDiscretePosition = new Vector2D((int) position.getX(), (int) position.getY());
 
         double speedMultiplier = switch (fsm.getCurrentStateName()) {
             case "FrightenState" -> Config.GHOST_FRIGHTENED_SPEED_MULTIPLIER;
@@ -130,17 +128,22 @@ public abstract class BaseGhost extends Entity {
             default -> 1;
         };
 
+        double offSetThresholdMultiplier = switch (fsm.getCurrentStateName()) {
+            case "RespawnState" -> Config.GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER;
+            default -> 1;
+        };
+
         if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
             setY(currentDiscretePosition.getY());
             if (currentDirection == Direction.LEFT) {
                 Vector2D vec = new Vector2D(currentDiscretePosition.getX() - position.getX(), 0);
-                if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                if (vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
                     setX(currentDiscretePosition.getX());
                     return;
                 }
             } else {
                 Vector2D vec = new Vector2D(currentDiscretePosition.getX() + 1 - position.getX(), 0);
-                if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
+                if (vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
                     setX(currentDiscretePosition.getX() + 1);
                     return;
                 }
