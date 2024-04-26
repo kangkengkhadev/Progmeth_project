@@ -23,8 +23,10 @@ public class FreezePotion extends BaseItem {
             }
         }
         for(BaseGhost ghost : closedGhost){
-            ghost.setDestroyed(true);
-            GameController.getInstance().getGhosts().remove(ghost);
+            if(!(ghost instanceof ScaffGhost)){
+                ghost.setDestroyed(true);
+                GameController.getInstance().getGhosts().remove(ghost);
+            }
         }
     }
 }
