@@ -19,7 +19,9 @@ public class Config {
     public static final double GHOST_FRIGHTENED_SPEED_MULTIPLIER = 0.5;
     public static final double GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER = 2;
     public static final double GHOST_RESPAWN_SPEED_MULTIPLIER = 4;
+    public static final double GHOST_FREEZE_SPEED_MULTIPLIER = 0;
     public static final int GHOST_FRIGHTENED_DURATION = 8;
+    public static final int GHOST_FREEZE_DURATION = 5;
     public static final int INVINCIBILITY_DURATION = 5;
     public static final double NORMAL_GHOST_SPEED = 0.11;
     public static final int GHOST_Z_INDEX = 1;
@@ -51,4 +53,5 @@ public class Config {
     public static final int ITEM_Z_INDEX = 1;
     public static final double SMALL_CIRCLE_CIRCUMSTANCE = 0.2;
     public static final double BIG_CIRCLE_CIRCUMSTANCE = 0.7;
+    public static final int NEXT_PHRASE_AMOUNT_THRESHOLD = 49;
 }

@@ -133,20 +133,19 @@ public class Pacman extends Entity {
             Vector2D vec = new Vector2D(getCentroid().getX() - ghost.getCentroid().getX(), getCentroid().getY() - ghost.getCentroid().getY());
 
             if (vec.getLength() < Config.PACMAN_COLLISION_RADIUS ) {
-                if (ghost.getFsm().getCurrentStateName().equals("FrightenState")
-                    || ghost.getFsm().getCurrentStateName().equals("RespawnState")
-                    || ghost.getFsm().getCurrentStateName().equals("SpawnState")) {
+                String currentState = ghost.getFsm().getCurrentStateName();
+                if (currentState.equals("RespawnState") || currentState.equals("SpawnState")) continue;
+                else if (currentState.equals("FrightenState")) {
                     ghost.getFsm().changeState(new RespawnState(ghost));
                 } else {
-                    if(ghost instanceof TankGhost){
+                    if (ghost instanceof TankGhost) {
                         health -= 2;
-                    }else{
-                        health --;
+                    } else {
+                        health--;
                     }
                     startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
                     break;
                 }
-
             }
         }
 

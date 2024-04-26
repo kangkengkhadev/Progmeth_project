@@ -59,7 +59,7 @@ public class GameController {
     }
 
     private void spawnItem() {
-        if (score == (numItems * 49)) {
+        if (score == (numItems * Config.NEXT_PHRASE_AMOUNT_THRESHOLD)) {
             ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {
