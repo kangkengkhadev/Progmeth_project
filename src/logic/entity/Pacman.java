@@ -3,6 +3,7 @@ package logic.entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
@@ -12,6 +13,9 @@ import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import util.Config;
 import util.InputUtility;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -23,6 +27,24 @@ public class Pacman extends Entity {
     private Vector2D nextVelocity;
     private int health;
     private PacmanState state;
+
+    private static final String GCOIN_FILE = "res/getcoin.mp3";
+    private static final Media GCOIN_SOUND = new Media(new File(GCOIN_FILE).toURI().toString());
+
+    private static final String EATER_FILE = "res/eater.mp3";
+    private static final Media EATER_SOUND = new Media(new File( EATER_FILE).toURI().toString());
+
+    private static final String GET_ITEM_FILE = "res/getItem.mp3";
+    private static final Media GET_ITEM_SOUND = new Media(new File( GET_ITEM_FILE).toURI().toString());
+
+    public static void playScoreSound(Media sound) {
+        Thread thread = new Thread(() -> {
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.dispose());
+            mediaPlayer.play();
+        });
+        thread.start();
+    }
 
     public Pacman(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -139,6 +161,7 @@ public class Pacman extends Entity {
                     ghost.getFsm().changeState(new RespawnState(ghost));
                 } else {
                     if (ghost instanceof TankGhost) {
+
                         health -= 2;
                     } else {
                         health--;
@@ -154,21 +177,22 @@ public class Pacman extends Entity {
         Vector2D vec = new Vector2D(centeredMapPosition.getX() - getCentroid().getX(), centeredMapPosition.getY() - getCentroid().getY());
         int itemCode = map.getMapItemsInfo()[(int)centeredMapPosition.getY()][(int)centeredMapPosition.getX()];
         if (itemCode == 1 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+            playScoreSound(GCOIN_SOUND);
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
             GameController.getInstance().setScore(GameController.getInstance().getScore() + 1);
         } else if (itemCode == 3 && vec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+            playScoreSound(EATER_SOUND);
             map.setMapItemsInfo((int)centeredMapPosition.getX(), (int)centeredMapPosition.getY(), -1);
             for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
                 ghost.startFrighten();
             }
         }
-
-
         ArrayList<BaseItem> deletedItems = new ArrayList<BaseItem>();
         for(BaseItem item : GameController.getInstance().getItems()){
             Vector2D itemPosition = new Vector2D((int)item.getCentroid().getX() + 0.5, (int)item.getCentroid().getY() + 0.5);
             Vector2D itemVec = new Vector2D(itemPosition.getX() - getCentroid().getX(), itemPosition.getY() - getCentroid().getY());
             if (itemVec.getLength() < Config.PACMAN_COLLISION_RADIUS) {
+                playScoreSound(GET_ITEM_SOUND);
                 item.useEffect();
                 item.destroy();
                 deletedItems.add(item);
