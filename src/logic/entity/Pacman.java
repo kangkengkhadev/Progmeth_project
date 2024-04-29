@@ -41,7 +41,7 @@ public class Pacman extends Entity {
     public static void playScoreSound(Media sound) {
         Thread thread = new Thread(() -> {
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.dispose());
+            mediaPlayer.setOnEndOfMedia(mediaPlayer::dispose);
             mediaPlayer.play();
         });
         thread.start();
