@@ -14,14 +14,14 @@ public class SpawnState extends BaseState {
 
     @Override
     public void update(double delta) {
-        if (ghost.getPosition().getX() == 23 && ghost.getPosition().getY() == 9) {
+        if (ghost.getPosition().getX() == Config.GHOST_X_ORIGIN && ghost.getPosition().getY() == Config.GHOST_Y_ORIGIN - 1) {
             ghost.getFsm().changeState(new ChaseState(ghost));
         }
     }
 
     @Override
     public void onEnter() {
-        Vector2D newTarget = new Vector2D(23, 9);
+        Vector2D newTarget = new Vector2D(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN - 1);
         ghost.setTarget(newTarget);
         ghost.getVelocity().setX(0);
         ghost.getVelocity().setY(-Config.NORMAL_GHOST_SPEED);

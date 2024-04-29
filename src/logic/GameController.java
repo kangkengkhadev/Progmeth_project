@@ -14,8 +14,6 @@ import util.Config;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class GameController {
     private static final GameController instance = new GameController();
@@ -51,11 +49,11 @@ public class GameController {
         addNewEntity(pacman);
         // Create the ghosts
         addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
-//        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
-//        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
-//        addNewGhost(new TankGhost(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
-//        addNewGhost(new SwiftGhost(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
-//        addNewGhost(new ScaffGhost(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
+        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
+        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+        addNewGhost(new TankGhost(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
+        addNewGhost(new SwiftGhost(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
+        addNewGhost(new ScaffGhost(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
     }
 
     private void spawnItem() {
@@ -75,7 +73,7 @@ public class GameController {
             Vector2D randomPosition = candidatePositions.get(new Random().nextInt(candidatePositions.size()));
             double prob = Math.random();
             BaseItem item = (prob < 0.5) ? new Cloak(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth())
-                                        : new FreezePotion(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
+                    : new FreezePotion(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
             addNewItem(item);
         }
     }
