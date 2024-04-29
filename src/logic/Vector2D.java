@@ -9,6 +9,11 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D(Vector2D vec) {
+        this.x = vec.x;
+        this.y = vec.y;
+    }
+
     public double getLength() {
         return Math.sqrt(x * x + y * y);
     }
@@ -16,6 +21,14 @@ public class Vector2D {
     public Vector2D normalize() {
         double length = getLength();
         return new Vector2D(x / length, y / length);
+    }
+
+    public Vector2D add(Vector2D vec) {
+        return new Vector2D(x + vec.x, y + vec.y);
+    }
+
+    public Vector2D subtract(Vector2D vec) {
+        return new Vector2D(x - vec.x, y - vec.y);
     }
 
     public Direction getCurrentDirection() {
