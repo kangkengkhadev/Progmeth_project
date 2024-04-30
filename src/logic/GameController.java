@@ -17,43 +17,36 @@ import java.util.Random;
 
 public class GameController {
     private static final GameController instance = new GameController();
-    private Map map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
-    private ArrayList<Renderable> renderedEntities = new ArrayList<Renderable>();
-    private ArrayList<BaseGhost> ghosts = new ArrayList<BaseGhost>();
-    private ArrayList<BaseItem> items = new ArrayList<BaseItem>();
+    private Map map;
+    private ArrayList<Renderable> renderedEntities;
+    private ArrayList<BaseGhost> ghosts;
+    private ArrayList<BaseItem> items;
     private Comparator<Renderable> comparator;
     private Pacman pacman;
     private GamePanel gamePanel;
     private TileMap tileMap;
-    private int score = 0;
-    private int numItems = 1;
+    private int score;
+    private int numItems;
 
     public void start(GraphicsContext gc) {
-        // Get the game panel
+        map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
+        renderedEntities = new ArrayList<Renderable>();
+        ghosts = new ArrayList<BaseGhost>();
+        items = new ArrayList<BaseItem>();
         gamePanel = (GamePanel) gc.getCanvas();
-        // Set the comparator for sorting entities
         comparator = (Renderable p, Renderable q) -> {
-            // Higher zIndex means the entity is rendered on top
             if (p.getZIndex() == q.getZIndex()) {
                 return 0;
             }
             return (p.getZIndex() > q.getZIndex() ? -1 : 1);
         };
-        // Create the tile map
         tileMap = new TileMap(map);
-        // Add the tile map to the list of rendered entities
         addNewEntity(tileMap);
-        // Create the pacman
         pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
-        // Add the pacman to the list of rendered entities
         addNewEntity(pacman);
-        // Create the ghosts
         addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
-        addNewGhost(new OrangeGhost(Config.ORANGE_GHOST_X_ORIGIN, Config.ORANGE_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
-        addNewGhost(new GreenGhost(Config.GREEN_GHOST_X_ORIGIN, Config.GREEN_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
-        addNewGhost(new TankGhost(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
-        addNewGhost(new SwiftGhost(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
-        addNewGhost(new ScaffGhost(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
+        score = 0;
+        numItems = 1;
     }
 
     private void spawnItem() {
@@ -61,10 +54,10 @@ public class GameController {
             numItems++;
             ArrayList<Vector2D> candidatePositions = new ArrayList<Vector2D>();
             Map map = GameController.getInstance().getMap();
-            Vector2D pacmanCurrentDiscretePosition = new Vector2D((int) pacman.getPosition().getX(), (int) pacman.getPosition().getY());
+            Vector2D pacmanCurrentDiscretePosition = new Vector2D((int) pacman.getCentroid().getX(), (int) pacman.getCentroid().getY());
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {
-                    if (map.getMapInfo()[i][j] == -1 && !pacmanCurrentDiscretePosition.equals(new Vector2D(j, i))) {
+                    if (map.getMapItemsInfo()[i][j] == -1 && !pacmanCurrentDiscretePosition.equals(new Vector2D(j, i))) {
                         candidatePositions.add(new Vector2D(j, i));
                     }
                 }
@@ -87,13 +80,10 @@ public class GameController {
     }
 
     public void render(GraphicsContext gc) {
-        // Clear the canvas
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
-        // Fill the canvas with black color
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        // Render the map
         renderEntities(gc);
     }
 

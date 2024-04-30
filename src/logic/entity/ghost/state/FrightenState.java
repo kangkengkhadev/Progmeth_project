@@ -1,5 +1,7 @@
 package logic.entity.ghost.state;
 
+import javafx.scene.media.MediaPlayer;
+import logic.GameController;
 import logic.Vector2D;
 import logic.entity.ghost.BaseGhost;
 import logic.fsm.BaseState;
