@@ -78,33 +78,22 @@ public abstract class BaseGhost extends Entity {
 
     private void changeVelocity() {
         Vector2D currentDiscretePosition = new Vector2D((int) position.getX(), (int) position.getY());
+        Direction currentDirection = velocity.getCurrentDirection();
         Map map = GameController.getInstance().getMap();
+
         if (position.equals(currentDiscretePosition)) {
-            Direction currentDirection = velocity.getCurrentDirection();
-            boolean isWallLeft = map.isWall(currentDiscretePosition.getX() - 1, currentDiscretePosition.getY());
-            boolean isWallRight = map.isWall(currentDiscretePosition.getX() + 1, currentDiscretePosition.getY());
-            boolean isWallUp = map.isWall(currentDiscretePosition.getX(), currentDiscretePosition.getY() - 1);
-            boolean isWallDown = map.isWall(currentDiscretePosition.getX(), currentDiscretePosition.getY() + 1);
             Direction[] directions = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
             Vector2D[] directionOffsets = {new Vector2D(-1, 0), new Vector2D(1, 0), new Vector2D(0, -1), new Vector2D(0, 1)};
             int bestDirectionIndex = -1;
             double bestDistance = Double.MAX_VALUE;
             for (int i = 0; i < 4; i++) {
-                Direction dir = directions[i];
-                Vector2D offset = directionOffsets[i];
-                if ((velocity.isSameAxis(offset) && dir != currentDirection)
-                        || dir == Direction.LEFT && isWallLeft
-                        || dir == Direction.RIGHT && isWallRight
-                        || dir == Direction.UP && isWallUp
-                        || dir == Direction.DOWN && isWallDown) {
+                Vector2D nextDiscretePosition = currentDiscretePosition.add(directionOffsets[i]);
+                if (map.isWall(nextDiscretePosition.getX(), nextDiscretePosition.getY())
+                    || (nextDiscretePosition.equals(new Vector2D(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN)) && !fsm.getCurrentStateName().equals("RespawnState"))
+                    || (directionOffsets[i].isSameAxis(velocity)) && directions[i] != currentDirection) {
                     continue;
                 }
-
-                Vector2D nextDiscretePosition = new Vector2D(currentDiscretePosition.getX() + offset.getX(), currentDiscretePosition.getY() + offset.getY());
-                if (nextDiscretePosition.equals(new Vector2D(23, 10)) && !fsm.getCurrentStateName().equals("RespawnState"))
-                    continue;
-                Vector2D vec = new Vector2D(target.getX() - nextDiscretePosition.getX(), target.getY() - nextDiscretePosition.getY());
-
+                Vector2D vec = target.subtract(nextDiscretePosition);
                 if (vec.getLength() < bestDistance) {
                     bestDistance = vec.getLength();
                     bestDirectionIndex = i;
@@ -131,7 +120,6 @@ public abstract class BaseGhost extends Entity {
             case "FreezeState" -> Config.GHOST_FREEZE_SPEED_MULTIPLIER;
             default -> 1;
         };
-
         if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost")) {
             speedMultiplier = Config.SWIFT_GHOST_SPEED;
         }
@@ -141,38 +129,24 @@ public abstract class BaseGhost extends Entity {
             default -> 1;
         };
 
-        if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
-            setY(currentDiscretePosition.getY());
-            if (currentDirection == Direction.LEFT) {
-                Vector2D vec = new Vector2D(currentDiscretePosition.getX() - position.getX(), 0);
-                if (vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
-                    setX(currentDiscretePosition.getX());
-                    return;
-                }
+        if (currentDirection != null) {
+            if (velocity.isSameAxis(new Vector2D(1, 0))) setY(currentDiscretePosition.getY());
+            else if (velocity.isSameAxis(new Vector2D(0, 1))) setX(currentDiscretePosition.getX());
+
+            Vector2D nextDiscretePosition = switch (currentDirection) {
+                case LEFT, UP -> new Vector2D(currentDiscretePosition);
+                case RIGHT -> new Vector2D(currentDiscretePosition.getX() + 1, currentDiscretePosition.getY());
+                case DOWN -> new Vector2D(currentDiscretePosition.getX(), currentDiscretePosition.getY() + 1);
+            };
+
+            Vector2D vec = nextDiscretePosition.subtract(position);
+            if (0 < vec.getLength() && vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth()) {
+                setX(nextDiscretePosition.getX());
+                setY(nextDiscretePosition.getY());
             } else {
-                Vector2D vec = new Vector2D(currentDiscretePosition.getX() + 1 - position.getX(), 0);
-                if (vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
-                    setX(currentDiscretePosition.getX() + 1);
-                    return;
-                }
+                setX(position.getX() + speedMultiplier * velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
+                setY(position.getY() + speedMultiplier * velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
             }
-            setX(position.getX() + speedMultiplier * velocity.getX() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
-        } else {
-            setX(currentDiscretePosition.getX());
-            if (currentDirection == Direction.UP) {
-                Vector2D vec = new Vector2D(0, currentDiscretePosition.getY() - position.getY());
-                if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
-                    setY(currentDiscretePosition.getY());
-                    return;
-                }
-            } else {
-                Vector2D vec = new Vector2D(0, currentDiscretePosition.getY() + 1 - position.getY());
-                if (vec.getLength() < Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth() && vec.getLength() > 0) {
-                    setY(currentDiscretePosition.getY() + 1);
-                    return;
-                }
-            }
-            setY(position.getY() + speedMultiplier * velocity.getY() * GameController.getInstance().getGamePanel().getUnitWidth() * delta);
         }
     }
 

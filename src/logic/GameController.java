@@ -54,36 +54,27 @@ public class GameController {
         addNewGhost(new TankGhost(Config.TANK_GHOST_X_ORIGIN, Config.TANK_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
         addNewGhost(new SwiftGhost(Config.SWIFT_GHOST_X_ORIGIN, Config.SWIFT_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
         addNewGhost(new ScaffGhost(Config.SCAFF_GHOST_X_ORIGIN, Config.SCAFF_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
-//        addNewItem(new Cloak(3,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-//        addNewItem(new Cloak(10,1, gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
     }
 
     private void spawnItem() {
-        if (score == (numItems * Config.NEXT_PHRASE_AMOUNT_THRESHOLD)) {
-            ArrayList<ArrayList<Integer>> candidateItems = new ArrayList<ArrayList<Integer>>();
+        if (score == numItems * Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            numItems++;
+            ArrayList<Vector2D> candidatePositions = new ArrayList<Vector2D>();
+            Map map = GameController.getInstance().getMap();
+            Vector2D pacmanCurrentDiscretePosition = new Vector2D((int) pacman.getPosition().getX(), (int) pacman.getPosition().getY());
             for (int i = 0; i < map.getRow(); i++) {
                 for (int j = 0; j < map.getCol(); j++) {
-                    int mapCode = map.getMapItemsInfo()[i][j];
-                    if (mapCode == -1 && ((int) pacman.getPosition().getX() != j || (int) pacman.getPosition().getY() != i)) {
-                        ArrayList<Integer> pair = new ArrayList<Integer>();
-                        pair.add(i);
-                        pair.add(j);
-                        candidateItems.add(pair);
+                    if (map.getMapInfo()[i][j] == -1 && !pacmanCurrentDiscretePosition.equals(new Vector2D(j, i))) {
+                        candidatePositions.add(new Vector2D(j, i));
                     }
                 }
             }
-            if (!candidateItems.isEmpty()) {
-                Random rand = new Random();
-                int randomIndex = rand.nextInt(candidateItems.size());
-                ArrayList<Integer> randomItem = candidateItems.get(randomIndex);
-                ArrayList<BaseItem> candidateClassItems = new ArrayList<BaseItem>();
-                candidateClassItems.add(new Cloak(randomItem.get(1), randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-                candidateClassItems.add(new FreezePotion(randomItem.get(1), randomItem.get(0), gamePanel.getUnitWidth(), gamePanel.getUnitWidth()));
-                int candidateItemUse = rand.nextInt(candidateClassItems.size());
-                addNewItem(candidateClassItems.get(candidateItemUse));
-                map.setMapItemsInfo(randomItem.get(1), randomItem.get(0), 2);
-                numItems++;
-            }
+
+            Vector2D randomPosition = candidatePositions.get(new Random().nextInt(candidatePositions.size()));
+            double prob = Math.random();
+            BaseItem item = (prob < 0.5) ? new Cloak(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth())
+                    : new FreezePotion(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
+            addNewItem(item);
         }
     }
 
