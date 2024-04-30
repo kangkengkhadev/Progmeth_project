@@ -68,12 +68,6 @@ public abstract class BaseGhost extends Entity {
                     height);
             gc.setGlobalAlpha(1.0);
         }
-
-        gc.setFill(Color.WHITE);
-        gc.setFont(new Font("Arial", 20));
-        gc.fillText("State: " + fsm.getCurrentStateName(),
-                position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 10);
     }
 
     private void changeVelocity() {
@@ -121,7 +115,7 @@ public abstract class BaseGhost extends Entity {
             default -> 1;
         };
         if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost")) {
-            speedMultiplier = Config.SWIFT_GHOST_SPEED;
+            speedMultiplier = Config.SWIFT_GHOST_SPEED_MULTIPLIER;
         }
 
         double offSetThresholdMultiplier = switch (fsm.getCurrentStateName()) {

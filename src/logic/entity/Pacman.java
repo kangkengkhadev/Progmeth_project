@@ -3,7 +3,6 @@ package logic.entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
@@ -14,10 +13,6 @@ import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
 import util.Config;
 import util.InputUtility;
-import javafx.scene.media.Media;
-
-import java.util.ArrayList;
-
 
 public class Pacman extends Entity {
     private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());

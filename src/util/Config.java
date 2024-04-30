@@ -45,7 +45,7 @@ public class Config {
     public static final int TANK_GHOST_SCATTER_DURATION = 8;
     public static final int TANK_GHOST_X_ORIGIN = 1;
     public static final int TANK_GHOST_Y_ORIGIN = 21;
-    public static final double SWIFT_GHOST_SPEED = 1.25;
+    public static final double SWIFT_GHOST_SPEED_MULTIPLIER = 1.25;
     public static final int SWIFT_GHOST_CHASE_DURATION = 3;
     public static final int SWIFT_GHOST_SCATTER_DURATION = 6;
     public static final int SWIFT_GHOST_X_ORIGIN = 23;

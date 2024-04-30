@@ -30,11 +30,6 @@ public abstract class BaseItem extends Entity {
                     position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
                     width,
                     height);
-            gc.setFill(Color.GREEN);
-            gc.fillRect(position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(),
-                    position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding(),
-                    5,
-                    5);
         }
     }
 

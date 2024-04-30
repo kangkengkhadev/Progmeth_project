@@ -27,6 +27,7 @@ public class GameController {
     private TileMap tileMap;
     private int score;
     private int numItems;
+    private boolean spawnable;
 
     public void start(GraphicsContext gc) {
         map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
@@ -44,9 +45,10 @@ public class GameController {
         addNewEntity(tileMap);
         pacman = new Pacman(Config.PACMAN_X_ORIGIN, Config.PACMAN_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
         addNewEntity(pacman);
-        addNewGhost(new YellowGhost(Config.YELLOW_GHOST_X_ORIGIN, Config.YELLOW_GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
+        addNewGhost(new YellowGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "YellowGhost.PNG"));
         score = 0;
         numItems = 1;
+        spawnable = true;
     }
 
     private void spawnItem() {
@@ -71,12 +73,35 @@ public class GameController {
         }
     }
 
+    private void spawnGhost() {
+        if (score % Config.NEXT_PHRASE_AMOUNT_THRESHOLD != 0) spawnable = true;
+        if (!spawnable) return;
+
+        if (score == Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            addNewGhost(new OrangeGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "OrangeGhost.PNG"));
+            spawnable = false;
+        } else if (score == 2 * Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            addNewGhost(new GreenGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "GreenGhost.PNG"));
+            spawnable = false;
+        } else if (score == 3 * Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            addNewGhost(new ScaffGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "ScaffGhost.PNG"));
+            spawnable = false;
+        } else if (score == 4 * Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            addNewGhost(new TankGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "TankGhost.PNG"));
+            spawnable = false;
+        } else if (score == 5 * Config.NEXT_PHRASE_AMOUNT_THRESHOLD) {
+            addNewGhost(new SwiftGhost(Config.GHOST_X_ORIGIN, Config.GHOST_Y_ORIGIN, gamePanel.getUnitWidth(), gamePanel.getUnitWidth(), Config.NORMAL_GHOST_SPEED, "SwiftGhost.PNG"));
+            spawnable = false;
+        }
+    }
+
     public void update(double delta) {
         pacman.update(delta);
         for (BaseGhost ghost : ghosts) {
             ghost.update(delta);
         }
         spawnItem();
+        spawnGhost();
     }
 
     public void render(GraphicsContext gc) {
