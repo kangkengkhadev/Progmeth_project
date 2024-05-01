@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import logic.AudioPlayer;
 import logic.GameController;
 import util.Config;
 
@@ -20,6 +21,7 @@ public class SceneController {
     private Stage rootStage;
     private long startTime = System.nanoTime();
     private double accumulateFps = 0;
+    private static AudioPlayer gameOverAudio = new AudioPlayer("gameover.mp3", false);
 
     public SceneController(Stage rootStage) {
         this.rootStage = rootStage;
@@ -119,6 +121,8 @@ public class SceneController {
     }
 
     public void transitionToGameOver() {
+        new Thread(() -> gameOverAudio.playAudio()).start();
+
         VBox root = new VBox();
         Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add(ClassLoader.getSystemResource("style.css").toExternalForm());
