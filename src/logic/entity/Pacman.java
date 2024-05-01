@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
 import logic.entity.ghost.state.RespawnState;
@@ -53,9 +54,9 @@ public class Pacman extends Entity {
         for (int i = 0; i < health; i++) {
             gc.drawImage(spriteHeart, GameController.getInstance().getGamePanel().getXPadding() + i * GameController.getInstance().getGamePanel().getUnitWidth(), GameController.getInstance().getGamePanel().getYPadding() - GameController.getInstance().getGamePanel().getUnitWidth(), GameController.getInstance().getGamePanel().getUnitWidth(), GameController.getInstance().getGamePanel().getUnitWidth());
         }
-        gc.setFont(Font.font("Arial", 20));
         gc.setFill(Color.WHITE);
-        gc.fillText("Score: " + GameController.getInstance().getScore(), position.getX() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getXPadding(), position.getY() * GameController.getInstance().getGamePanel().getUnitWidth() + GameController.getInstance().getGamePanel().getYPadding() - 20);
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        gc.fillText("Score: " + GameController.getInstance().getScore(), 1100, GameController.getInstance().getGamePanel().getYPadding() - GameController.getInstance().getGamePanel().getUnitWidth() / 2);
     }
 
     private void getInput() {
