@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.ghost.BaseGhost;
-import logic.entity.ghost.TankGhost;
 import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
@@ -218,5 +217,9 @@ public class Pacman extends Entity {
 
     public void takeDamage(int damage) {
         health -= damage;
+        if (health <= 0) {
+            health = 0;
+            GameController.getInstance().gameOver();
+        }
     }
 }

@@ -28,6 +28,7 @@ public class GameController {
     private int score;
     private int numItems;
     private boolean spawnable;
+    private boolean isGameOver;
 
     public void start(GraphicsContext gc) {
         map = new Map(Config.MAP_Y_DIMENSION, Config.MAP_X_DIMENSION);
@@ -49,6 +50,7 @@ public class GameController {
         score = 0;
         numItems = 1;
         spawnable = true;
+        isGameOver = false;
     }
 
     private void spawnItem() {
@@ -176,5 +178,13 @@ public class GameController {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void gameOver() {
+        this.isGameOver = true;
+    }
+
+    public boolean isGameOver() {
+        return this.isGameOver;
     }
 }

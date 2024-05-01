@@ -53,6 +53,6 @@ public class Config {
     public static final int ITEM_Z_INDEX = 1;
     public static final double SMALL_CIRCLE_CIRCUMSTANCE = 0.2;
     public static final double BIG_CIRCLE_CIRCUMSTANCE = 0.7;
-    public static final int NEXT_PHRASE_AMOUNT_THRESHOLD = 5;
+    public static final int NEXT_PHRASE_AMOUNT_THRESHOLD = 40;
 
 }
