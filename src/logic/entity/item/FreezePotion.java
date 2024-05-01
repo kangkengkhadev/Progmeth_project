@@ -15,9 +15,7 @@ public class FreezePotion extends BaseItem {
     @Override
     public void useEffect() {
         for(BaseGhost ghost : GameController.getInstance().getGhosts()){
-            if (!(ghost instanceof ScaffGhost)){
-                ghost.startFreeze();
-            }
+            ghost.startFreeze();
         }
     }
 }
