@@ -130,11 +130,7 @@ public class Pacman extends Entity {
                 else if (currentState.equals("FrightenState")) {
                     ghost.getFsm().changeState(new RespawnState(ghost));
                 } else {
-                    if (ghost instanceof TankGhost) {
-                        health -= 2;
-                    } else {
-                        health--;
-                    }
+                    ghost.attack();
                     startInvincible(Config.PACMAN_HURT_INVINCIBILITY_DURATION);
                     break;
                 }
@@ -218,5 +214,9 @@ public class Pacman extends Entity {
 
     public Vector2D getVelocity() {
         return velocity;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
     }
 }

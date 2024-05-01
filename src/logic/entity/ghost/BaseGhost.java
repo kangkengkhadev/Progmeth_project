@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.Entity;
+import logic.entity.Pacman;
 import logic.entity.ghost.state.ChaseState;
 import logic.entity.ghost.state.FreezeState;
 import logic.entity.ghost.state.FrightenState;
@@ -21,7 +22,7 @@ public abstract class BaseGhost extends Entity {
     protected Vector2D velocity;
     protected Vector2D target;
     private double speed;
-    private FiniteStateMachine fsm;
+    protected FiniteStateMachine fsm;
 
     public BaseGhost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height);
@@ -104,24 +105,25 @@ public abstract class BaseGhost extends Entity {
         }
     }
 
-    private void move(double delta) {
-        Direction currentDirection = velocity.getCurrentDirection();
-        Vector2D currentDiscretePosition = new Vector2D((int) position.getX(), (int) position.getY());
-
-        double speedMultiplier = switch (fsm.getCurrentStateName()) {
+    protected double getSpeedMultiplier() {
+        return switch (fsm.getCurrentStateName()) {
             case "FrightenState" -> Config.GHOST_FRIGHTENED_SPEED_MULTIPLIER;
             case "RespawnState" -> Config.GHOST_RESPAWN_SPEED_MULTIPLIER;
             case "FreezeState" -> Config.GHOST_FREEZE_SPEED_MULTIPLIER;
             default -> 1;
         };
-        if (speedMultiplier == 1 && getClass().getSimpleName().equals("SwiftGhost")) {
-            speedMultiplier = Config.SWIFT_GHOST_SPEED_MULTIPLIER;
-        }
+    }
 
-        double offSetThresholdMultiplier = switch (fsm.getCurrentStateName()) {
-            case "RespawnState" -> Config.GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER;
-            default -> 1;
-        };
+    private void move(double delta) {
+        Direction currentDirection = velocity.getCurrentDirection();
+        Vector2D currentDiscretePosition = new Vector2D((int) position.getX(), (int) position.getY());
+
+        double speedMultiplier = getSpeedMultiplier();
+
+        double offsetThresholdMultiplier = 1;
+        if (fsm.getCurrentStateName().equals("RespawnState")) {
+            offsetThresholdMultiplier = Config.GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER;
+        }
 
         if (currentDirection != null) {
             if (velocity.isSameAxis(new Vector2D(1, 0))) setY(currentDiscretePosition.getY());
@@ -134,7 +136,7 @@ public abstract class BaseGhost extends Entity {
             };
 
             Vector2D vec = nextDiscretePosition.subtract(position);
-            if (0 < vec.getLength() && vec.getLength() < offSetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth()) {
+            if (0 < vec.getLength() && vec.getLength() < offsetThresholdMultiplier * Config.MOVEMENT_OFFSET_THRESHOLD * GameController.getInstance().getGamePanel().getUnitWidth()) {
                 setX(nextDiscretePosition.getX());
                 setY(nextDiscretePosition.getY());
             } else {
@@ -160,6 +162,11 @@ public abstract class BaseGhost extends Entity {
 
     public Vector2D getVelocity() {
         return velocity;
+    }
+
+    public void attack() {
+        Pacman player = GameController.getInstance().getPacman();
+        player.takeDamage(1);
     }
 }
 
