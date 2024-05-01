@@ -168,13 +168,10 @@ public class Pacman extends Entity {
             if (getCentroid().subtract(item.getCentroid()).getLength() < Config.PACMAN_COLLISION_RADIUS) {
                 if (item instanceof FreezePotion) {
                     new Thread(() -> collectedFreezePotionAudio.playAudio()).start();
-                    for (BaseGhost ghost : GameController.getInstance().getGhosts()) {
-                        ghost.startFreeze();
-                    }
                 } else {
                     new Thread(() -> collectedCloakAudio.playAudio()).start();
-                    startInvincible(Config.INVINCIBILITY_DURATION);
                 }
+                map.setMapItemsInfo((int) item.getCentroid().getX(), (int) item.getCentroid().getY(), -1);
                 item.useEffect();
                 item.destroy();
                 GameController.getInstance().getItems().remove(i);

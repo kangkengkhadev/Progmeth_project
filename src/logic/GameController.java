@@ -72,6 +72,11 @@ public class GameController {
             double prob = Math.random();
             BaseItem item = (prob < 0.5) ? new Cloak(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth())
                     : new FreezePotion(randomPosition.getX(), randomPosition.getY(), gamePanel.getUnitWidth(), gamePanel.getUnitWidth());
+            if (item instanceof Cloak) {
+                map.getMapItemsInfo()[(int) randomPosition.getY()][(int) randomPosition.getX()] = 2;
+            } else {
+                map.getMapItemsInfo()[(int) randomPosition.getY()][(int) randomPosition.getX()] = 4;
+            }
             addNewItem(item);
         }
     }
