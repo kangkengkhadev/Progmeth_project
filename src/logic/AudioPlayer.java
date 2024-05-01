@@ -33,8 +33,4 @@ public class AudioPlayer {
             mediaPlayer.stop();
         }
     }
-
-    public MediaPlayer.Status getStatus() {
-        return mediaPlayer.getStatus();
-    }
 }

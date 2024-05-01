@@ -17,11 +17,12 @@ public class TileMap implements Renderable {
 
     public TileMap(Map map) {
         this.map = map;
-        setDestroyed(false);
+        this.destroyed = false;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
+        // Get the padding and unit width from the game panel
         double xPadding = GameController.getInstance().getGamePanel().getXPadding();
         double yPadding = GameController.getInstance().getGamePanel().getYPadding();
         double unitWidth = GameController.getInstance().getGamePanel().getUnitWidth();
@@ -29,8 +30,11 @@ public class TileMap implements Renderable {
         // Iterate through the map info and render the walls
         for (int i = 0; i < map.getRow(); i++) {
             for (int j = 0; j < map.getCol(); j++) {
+                // Get the map code and the map items code
                 int mapCode = map.getMapInfo()[i][j];
                 int mapItemsCode = map.getMapItemsInfo()[i][j];
+
+                // Determine the image and rotation based on the map code
                 Image img = null;
                 double rotation = 0;
                 if (mapCode == 0) {
@@ -86,6 +90,7 @@ public class TileMap implements Renderable {
                 // Restore the transformation matrix for the next iteration
                 gc.restore();
 
+                // Render the map items (only the small and big circles)
                 gc.setFill(Color.YELLOW);
                 double circumstance = switch (mapItemsCode) {
                     case 1 -> Config.SMALL_CIRCLE_CIRCUMSTANCE;
@@ -100,10 +105,6 @@ public class TileMap implements Renderable {
     @Override
     public int getZIndex() {
         return Config.TILE_MAP_Z_INDEX;
-    }
-
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
     }
 
     @Override

@@ -12,13 +12,13 @@ public abstract class Entity implements Renderable {
 
     public Entity(double x, double y, double width, double height) {
         position = new Vector2D(x, y);
-        setDestroyed(false);
+        this.destroyed = false;
         setWidth(width);
         setHeight(height);
     }
 
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
+    public void destroy() {
+        this.destroyed = true;
     }
 
     @Override

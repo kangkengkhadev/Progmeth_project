@@ -13,8 +13,8 @@ public class Map {
     private int col;
 
     public Map(int row, int col) {
-        setRow(row);
-        setCol(col);
+        this.row = row;
+        this.col = col;
         this.mapInfo = new int[row][col];
         this.mapItemsInfo = new int[row][col];
         // Read the map data from grid_data_out.csv
@@ -80,16 +80,8 @@ public class Map {
         return mapInfo;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public int getRow() {
         return this.row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
     }
 
     public int getCol() {

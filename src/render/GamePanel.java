@@ -1,4 +1,4 @@
-package logic;
+package render;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;

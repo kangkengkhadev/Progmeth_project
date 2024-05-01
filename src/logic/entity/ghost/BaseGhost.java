@@ -2,12 +2,9 @@ package logic.entity.ghost;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import logic.*;
 import logic.entity.Entity;
 import logic.entity.Pacman;
-import logic.entity.ghost.state.ChaseState;
 import logic.entity.ghost.state.FreezeState;
 import logic.entity.ghost.state.FrightenState;
 import logic.entity.ghost.state.SpawnState;

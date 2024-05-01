@@ -1,4 +1,4 @@
-package logic.entity;
+package logic.fsm;
 
 public enum PacmanState {
     NORMAL,

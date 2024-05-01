@@ -8,6 +8,7 @@ import logic.entity.ghost.*;
 import logic.entity.item.Cloak;
 import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
+import render.GamePanel;
 import render.Renderable;
 import util.Config;
 
@@ -166,10 +167,6 @@ public class GameController {
 
     public ArrayList<BaseItem> getItems() {
         return items;
-    }
-
-    public void setItems(ArrayList<BaseItem> items) {
-        this.items = items;
     }
 
     public int getScore() {

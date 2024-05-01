@@ -1,13 +1,6 @@
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import logic.GameController;
-import logic.GamePanel;
-import logic.SceneController;
-import util.Config;
+import render.SceneController;
 
 public class Main extends Application {
     @Override

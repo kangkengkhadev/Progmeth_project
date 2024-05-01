@@ -10,6 +10,7 @@ import logic.entity.ghost.BaseGhost;
 import logic.entity.ghost.state.RespawnState;
 import logic.entity.item.BaseItem;
 import logic.entity.item.FreezePotion;
+import logic.fsm.PacmanState;
 import util.Config;
 import util.InputUtility;
 
@@ -160,6 +161,7 @@ public class Pacman extends Entity {
                 ghost.startFrighten();
             }
         }
+
         for (int i = GameController.getInstance().getItems().size() - 1; i >= 0; i--) {
             BaseItem item = GameController.getInstance().getItems().get(i);
             if (getCentroid().subtract(item.getCentroid()).getLength() < Config.PACMAN_COLLISION_RADIUS) {

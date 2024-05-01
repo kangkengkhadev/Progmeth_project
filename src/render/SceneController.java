@@ -1,4 +1,4 @@
-package logic;
+package render;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import logic.GameController;
 import util.Config;
 
 
@@ -22,7 +23,6 @@ public class SceneController {
 
     public SceneController(Stage rootStage) {
         this.rootStage = rootStage;
-
         instance = this;
     }
 
@@ -31,13 +31,16 @@ public class SceneController {
     }
 
     public void transitionToMainMenu() {
+        // Create a VBox layout for the main menu and set up the scene
         VBox root = new VBox();
         Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add(ClassLoader.getSystemResource("style.css").toExternalForm());
         root.setAlignment(Pos.CENTER);
 
+        // Set the scene to the root stage
         rootStage.setScene(scene);
 
+        // Create the main menu components
         Label gameTitle = new Label("Pacbubu");
         gameTitle.setStyle("-fx-font-size: 200px ");
         gameTitle.setTextAlignment(TextAlignment.CENTER);
@@ -51,10 +54,12 @@ public class SceneController {
         exitButton.setPadding(new Insets(2, 40, 10, 40));
         exitButton.setStyle("-fx-font-size: 80px");
 
+        // Add the main menu components to the root layout
         root.getChildren().add(gameTitle);
         root.getChildren().add(playButton);
         root.getChildren().add(exitButton);
 
+        // Set the event handlers for the buttons
         playButton.setOnAction(e -> {
             transitionToGamePanel();
         });
@@ -63,22 +68,27 @@ public class SceneController {
             rootStage.close();
         });
 
+        // Show the root stage
         rootStage.show();
     }
 
     public void transitionToGamePanel() {
+        // Save the start time
         startTime = System.nanoTime();
 
+        // Create a Pane layout for the game panel and set up the scene
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 720);
 
         rootStage.setScene(scene);
 
+        // Create a GamePanel and set up the GraphicsContext
         GamePanel gamePanel = new GamePanel(1280, 720);
         GraphicsContext gc = gamePanel.getGraphicsContext2D();
         root.getChildren().add(gamePanel);
         gamePanel.requestFocus();
 
+        // Start the game
         GameController.getInstance().start(gc);
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
@@ -121,24 +131,24 @@ public class SceneController {
         gameOverLabel.setTextAlignment(TextAlignment.CENTER);
 
         Button playButton = new Button("Play Again");
-        Button exitButton = new Button("Exit");
+        Button mainMenuButton = new Button("Main Menu");
         playButton.setAlignment(Pos.CENTER);
-        exitButton.setAlignment(Pos.CENTER);
+        mainMenuButton.setAlignment(Pos.CENTER);
         playButton.setPadding(new Insets(10, 40, 2, 40));
         playButton.setStyle("-fx-font-size: 80px");
-        exitButton.setPadding(new Insets(2, 40, 10, 40));
-        exitButton.setStyle("-fx-font-size: 80px");
+        mainMenuButton.setPadding(new Insets(2, 40, 10, 40));
+        mainMenuButton.setStyle("-fx-font-size: 80px");
 
         root.getChildren().add(gameOverLabel);
         root.getChildren().add(playButton);
-        root.getChildren().add(exitButton);
+        root.getChildren().add(mainMenuButton);
 
         playButton.setOnAction(e -> {
             transitionToGamePanel();
         });
 
-        exitButton.setOnAction(e -> {
-            rootStage.close();
+        mainMenuButton.setOnAction(e -> {
+            transitionToMainMenu();
         });
 
         rootStage.show();

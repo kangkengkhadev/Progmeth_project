@@ -15,23 +15,22 @@ public class Vector2D {
     }
 
     public double getLength() {
+        // return the length of the vector
         return Math.sqrt(x * x + y * y);
     }
 
-    public Vector2D normalize() {
-        double length = getLength();
-        return new Vector2D(x / length, y / length);
-    }
-
     public Vector2D add(Vector2D vec) {
+        // return a new vector that is the sum of this vector and the given vector (vec)
         return new Vector2D(x + vec.x, y + vec.y);
     }
 
     public Vector2D subtract(Vector2D vec) {
+        // return a new vector that is the difference of this vector and the given vector (vec)
         return new Vector2D(x - vec.x, y - vec.y);
     }
 
     public Direction getCurrentDirection() {
+        // return the direction of the vector (UP, DOWN, LEFT, RIGHT)
         if (getX() < 0) {
             return Direction.LEFT;
         } else if (getX() > 0) {
@@ -45,6 +44,7 @@ public class Vector2D {
     }
 
     public boolean isSameAxis(Vector2D vec) {
+        // return true if this vector and the given vector (vec) are on the same axis
         return (getX() == 0 && vec.getX() == 0) || (getY() == 0 && vec.getY() == 0);
     }
 
