@@ -30,7 +30,5 @@ public abstract class BaseItem extends Entity {
         }
     }
 
-    public void useEffect(){
-
-    }
+    public abstract void useEffect();
 }

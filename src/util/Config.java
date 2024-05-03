@@ -11,7 +11,7 @@ public class Config {
     public static final double PACMAN_COLLISION_RADIUS = 0.2;
     public static final int PACMAN_MAX_HEALTH = 3;
     public static final int PACMAN_HURT_INVINCIBILITY_DURATION = 3;
-    public static final int FPS_CAP = 60;
+    public static final int FPS_CAP = 30;
     public static final int TILE_MAP_Z_INDEX = 0;
     public static final double MOVEMENT_OFFSET_THRESHOLD = 0.005;
     public static final int GHOST_X_ORIGIN = 23;

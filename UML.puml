@@ -1,29 +1,196 @@
 @startuml
+class logic.entity.ghost.state.RespawnState {
+- BaseGhost ghost
++ <<Create>> RespawnState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+abstract class logic.entity.item.BaseItem {
+- Image sprite
++ <<Create>> BaseItem(double,double,double,double,String)
++ int getZIndex()
++ void draw(GraphicsContext)
++ void useEffect()
+}
+class logic.entity.ghost.state.FreezeState {
+- BaseGhost ghost
++ <<Create>> FreezeState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+class logic.entity.item.Cloak {
++ <<Create>> Cloak(double,double,double,double)
++ void useEffect()
+}
+class render.SceneController {
+- {static} SceneController instance
+- Stage rootStage
+- long startTime
+- double accumulateFps
+- {static} AudioPlayer gameOverAudio
++ <<Create>> SceneController(Stage)
++ {static} SceneController getInstance()
++ void transitionToMainMenu()
++ void transitionToGamePanel()
++ void transitionToGameOver()
+}
+class logic.entity.ghost.state.ChaseState {
+~ BaseGhost ghost
++ <<Create>> ChaseState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+class logic.entity.ghost.SwiftGhost {
++ <<Create>> SwiftGhost(double,double,double,double,double,String)
+# double getSpeedMultiplier()
+}
 class logic.Vector2D {
 - double x
 - double y
 + <<Create>> Vector2D(double,double)
++ <<Create>> Vector2D(Vector2D)
 + double getLength()
-+ Vector2D normalize()
++ Vector2D add(Vector2D)
++ Vector2D subtract(Vector2D)
++ Direction getCurrentDirection()
++ boolean isSameAxis(Vector2D)
 + double getX()
 + double getY()
 + void setX(double)
 + void setY(double)
++ boolean equals(Object)
 }
-class logic.Pacman {
-- Image sprite
+class logic.entity.ghost.TankGhost {
++ <<Create>> TankGhost(double,double,double,double,double,String)
++ void attack()
+}
+class logic.fsm.FiniteStateMachine {
+- BaseState initialState
+- BaseState currentState
+- String currentStateName
++ <<Create>> FiniteStateMachine(BaseState)
++ void update(double)
++ void changeState(BaseState)
++ BaseState getCurrentState()
++ String getCurrentStateName()
+}
+class logic.entity.Pacman {
+- {static} Image spriteNormal
+- {static} Image spriteInvincible
+- {static} Image spriteHeart
+- {static} AudioPlayer frightenedGhostAudio
+- {static} AudioPlayer collectedCoinAudio
+- {static} AudioPlayer collectedFreezePotionAudio
+- {static} AudioPlayer collectedCloakAudio
 - Vector2D velocity
 - Vector2D nextVelocity
-- ArrayList<Rectangle> tileCollisions
-+ <<Create>> Pacman(double,double,double,double,String)
-- Direction getCurrentDirection()
+- int health
+- PacmanState state
++ <<Create>> Pacman(double,double,double,double)
 + int getZIndex()
 + void draw(GraphicsContext)
 - void getInput()
+- void changeVelocity()
++ void startInvincible(long)
+- void collisionCheck()
 + void update(double)
 - void move(double)
-+ Rectangle getCollisionBox()
-- void createCollisionAroundPacman()
++ Vector2D getVelocity()
++ void takeDamage(int)
+}
+enum logic.Direction {
++  UP
++  DOWN
++  LEFT
++  RIGHT
+}
+enum logic.fsm.PacmanState {
++  NORMAL
++  INVINCIBLE
+}
+abstract class logic.entity.Entity {
+# Vector2D position
+# boolean destroyed
+# double width
+# double height
++ <<Create>> Entity(double,double,double,double)
++ void destroy()
++ boolean isDestroyed()
++ Vector2D getPosition()
++ void setX(double)
++ void setY(double)
++ Vector2D getCentroid()
++ double getWidth()
++ void setWidth(double)
++ double getHeight()
++ void setHeight(double)
+}
+class logic.entity.ghost.state.ScatterState {
+~ BaseGhost ghost
++ <<Create>> ScatterState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+class logic.GameController {
+- {static} GameController instance
+- Map map
+- ArrayList<Renderable> renderedEntities
+- ArrayList<BaseGhost> ghosts
+- ArrayList<BaseItem> items
+- Comparator<Renderable> comparator
+- Pacman pacman
+- GamePanel gamePanel
+- TileMap tileMap
+- int score
+- int numItems
+- boolean spawnable
+- boolean isGameOver
++ void start(GraphicsContext)
+- void spawnItem()
+- void spawnGhost()
++ void update(double)
++ void render(GraphicsContext)
+- void addNewGhost(BaseGhost)
+- void addNewItem(BaseItem)
+- void addNewEntity(Renderable)
+- void renderEntities(GraphicsContext)
++ Map getMap()
++ {static} GameController getInstance()
++ GamePanel getGamePanel()
++ Pacman getPacman()
++ ArrayList<BaseGhost> getGhosts()
++ ArrayList<BaseItem> getItems()
++ int getScore()
++ void setScore(int)
++ void gameOver()
++ boolean isGameOver()
+}
+class logic.entity.ghost.ScaffGhost {
++ <<Create>> ScaffGhost(double,double,double,double,double,String)
++ void startFreeze()
+}
+class logic.entity.ghost.state.SpawnState {
+- BaseGhost ghost
++ <<Create>> SpawnState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+class logic.entity.ghost.state.FrightenState {
+- BaseGhost ghost
++ <<Create>> FrightenState(BaseGhost)
++ void update(double)
++ void onEnter()
++ void onExit()
+}
+abstract class logic.fsm.BaseState {
++ {abstract}void update(double)
++ {abstract}void onEnter()
++ {abstract}void onExit()
 }
 class logic.TileMap {
 - {static} Image wallSolidSprite
@@ -36,16 +203,9 @@ class logic.TileMap {
 + <<Create>> TileMap(Map)
 + void draw(GraphicsContext)
 + int getZIndex()
-+ void setDestroyed(boolean)
 + boolean isDestroyed()
 }
-enum logic.Direction {
-+  UP
-+  DOWN
-+  LEFT
-+  RIGHT
-}
-class logic.GamePanel {
+class render.GamePanel {
 - double unitWidth
 - double xPadding
 - double yPadding
@@ -55,75 +215,88 @@ class logic.GamePanel {
 + double getXPadding()
 + double getYPadding()
 }
+class logic.entity.ghost.OrangeGhost {
++ <<Create>> OrangeGhost(double,double,double,double,double,String)
+}
+class logic.entity.ghost.YellowGhost {
++ <<Create>> YellowGhost(double,double,double,double,double,String)
+}
+class logic.entity.item.FreezePotion {
++ <<Create>> FreezePotion(double,double,double,double)
++ void useEffect()
+}
+class logic.Map {
+- int[][] mapInfo
+- int[][] mapItemsInfo
+- int row
+- int col
++ <<Create>> Map(int,int)
++ boolean isWall(double,double)
++ int[][] getMapItemsInfo()
++ void setMapItemsInfo(double,double,int)
++ int[][] getMapInfo()
++ int getRow()
++ int getCol()
+}
+abstract class logic.entity.ghost.BaseGhost {
+- Image sprite
+- {static} Image frightenedSprite
+- {static} Image ghostEyeSprite
+- {static} Image freezeOverlaySprite
+# Vector2D velocity
+# Vector2D target
+- double speed
+# FiniteStateMachine fsm
++ <<Create>> BaseGhost(double,double,double,double,double,String)
++ void startFreeze()
++ void startFrighten()
++ int getZIndex()
++ void draw(GraphicsContext)
+- void changeVelocity()
+# double getSpeedMultiplier()
+- void move(double)
++ void update(double)
++ void setTarget(Vector2D)
++ FiniteStateMachine getFsm()
++ Vector2D getVelocity()
++ void attack()
+}
+class logic.entity.ghost.GreenGhost {
++ <<Create>> GreenGhost(double,double,double,double,double,String)
+}
 interface render.Renderable {
 ~ int getZIndex()
 ~ void draw(GraphicsContext)
 ~ boolean isDestroyed()
 }
-class logic.GameController {
-- {static} GameController instance
-- Map map
-- ArrayList<Renderable> renderedEntities
-- Comparator<Renderable> comparator
-- Pacman pacman
-- GamePanel gamePanel
-- TileMap tileMap
-+ void start(GraphicsContext)
-+ void update(double)
-+ void render(GraphicsContext)
-- void addNewEntity(Renderable)
-- void renderEntities(GraphicsContext)
-+ Map getMap()
-+ {static} GameController getInstance()
-+ GamePanel getGamePanel()
-}
-class logic.Map {
-- int[][] mapInfo
-- int row
-- int col
-+ <<Create>> Map(int,int,String)
-+ boolean isWall(double,double)
-+ int[][] getMapInfo()
-+ void setRow(int)
-+ int getRow()
-+ void setCol(int)
-+ int getCol()
-}
-interface logic.Collidable {
-~ Rectangle getCollisionBox()
-}
-class logic.Rectangle {
-- Vector2D origin
-- double width
-- double height
-+ <<Create>> Rectangle(double,double,double,double)
-+ boolean isColliding(Rectangle)
-+ Vector2D getOrigin()
-+ double getWidth()
-+ double getHeight()
-}
-abstract class logic.Entity {
-# Vector2D position
-# boolean destroyed
-# double width
-# double height
-+ <<Create>> Entity(double,double,double,double)
-+ void setDestroyed(boolean)
-+ boolean isDestroyed()
-+ Vector2D getPosition()
-+ void setX(double)
-+ void setY(double)
-+ Vector2D getCentroid()
-+ double getWidth()
-+ void setWidth(double)
-+ double getHeight()
-+ void setHeight(double)
+class logic.AudioPlayer {
+- MediaPlayer mediaPlayer
+- Media audio
+- boolean replay
++ <<Create>> AudioPlayer(String,boolean)
++ void playAudio()
++ void stopAudio()
 }
 
 
-logic.Collidable <|.. logic.Pacman
-logic.Entity <|-- logic.Pacman
+logic.fsm.BaseState <|-- logic.entity.ghost.state.RespawnState
+logic.entity.Entity <|-- logic.entity.item.BaseItem
+logic.fsm.BaseState <|-- logic.entity.ghost.state.FreezeState
+logic.entity.item.BaseItem <|-- logic.entity.item.Cloak
+logic.fsm.BaseState <|-- logic.entity.ghost.state.ChaseState
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.SwiftGhost
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.TankGhost
+logic.entity.Entity <|-- logic.entity.Pacman
+render.Renderable <|.. logic.entity.Entity
+logic.fsm.BaseState <|-- logic.entity.ghost.state.ScatterState
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.ScaffGhost
+logic.fsm.BaseState <|-- logic.entity.ghost.state.SpawnState
+logic.fsm.BaseState <|-- logic.entity.ghost.state.FrightenState
 render.Renderable <|.. logic.TileMap
-javafx.scene.canvas.Canvas <|-- logic.GamePanel
-render.Renderable <|.. logic.Entity
+javafx.scene.canvas.Canvas <|-- render.GamePanel
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.OrangeGhost
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.YellowGhost
+logic.entity.item.BaseItem <|-- logic.entity.item.FreezePotion
+logic.entity.Entity <|-- logic.entity.ghost.BaseGhost
+logic.entity.ghost.BaseGhost <|-- logic.entity.ghost.GreenGhost
 @enduml
