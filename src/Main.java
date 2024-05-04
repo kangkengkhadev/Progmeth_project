@@ -7,7 +7,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         stage.setTitle("Pacbubu");
         new SceneController(stage);
-        SceneController.getInstance().transitionToMainMenu();
+        SceneController.getInstance().showMainMenu();
     }
 
     public static void main(String[] args) {

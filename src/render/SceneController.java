@@ -32,7 +32,7 @@ public class SceneController {
         return instance;
     }
 
-    public void transitionToMainMenu() {
+    public void showMainMenu() {
         // Create a VBox layout for the main menu and set up the scene
         VBox root = new VBox();
         Scene scene = new Scene(root, 1280, 720);
@@ -63,7 +63,7 @@ public class SceneController {
 
         // Set the event handlers for the buttons
         playButton.setOnAction(e -> {
-            transitionToGamePanel();
+            showGamePanel();
         });
 
         exitButton.setOnAction(e -> {
@@ -74,7 +74,7 @@ public class SceneController {
         rootStage.show();
     }
 
-    public void transitionToGamePanel() {
+    public void showGamePanel() {
         // Save the start time
         startTime = System.nanoTime();
 
@@ -97,7 +97,7 @@ public class SceneController {
             public void handle(long currentTime) {
                 if (GameController.getInstance().isGameOver()) {
                     stop();
-                    transitionToGameOver();
+                    showGameOver();
                 }
 
                 // Calculate the time passed
@@ -120,7 +120,7 @@ public class SceneController {
         rootStage.show();
     }
 
-    public void transitionToGameOver() {
+    public void showGameOver() {
         new Thread(() -> gameOverAudio.playAudio()).start();
 
         VBox root = new VBox();
@@ -148,11 +148,11 @@ public class SceneController {
         root.getChildren().add(mainMenuButton);
 
         playButton.setOnAction(e -> {
-            transitionToGamePanel();
+            showGamePanel();
         });
 
         mainMenuButton.setOnAction(e -> {
-            transitionToMainMenu();
+            showMainMenu();
         });
 
         rootStage.show();
