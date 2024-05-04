@@ -8,13 +8,11 @@
 }
 
 .label {
-
      -fx-font-family: "Jersey 10", sans-serif;
      -fx-font-weight: 400;
      -fx-font-style: normal;
      -fx-text-fill: SKYBLUE;
      -fx-effect: dropshadow(three-pass-box, Midnightblue , 2, 10, 0, 7);
-
 
 }
 
@@ -39,6 +37,10 @@
     -fx-background-position: center center;
 
 }
+#label2{
+    -fx-text-fill: red;
+}
+
 
 .button:hover {
         -fx-text-fill: rgba(167, 204, 223, 1);

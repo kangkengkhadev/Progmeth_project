@@ -133,7 +133,8 @@ public class SceneController {
         root.setId("pane2");
 
         Label gameOverLabel = new Label("Game Over");
-        gameOverLabel.setStyle("-fx-font-size: 200px ");
+        gameOverLabel.setId("label2");
+        gameOverLabel.setStyle("-fx-font-size: 200px");
         gameOverLabel.setTextAlignment(TextAlignment.CENTER);
 
         Button playButton = new Button("Play Again");
