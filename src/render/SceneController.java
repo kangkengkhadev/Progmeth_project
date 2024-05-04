@@ -2,9 +2,9 @@ package render;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -41,7 +41,7 @@ public class SceneController {
 
         // Set the scene to the root stage
         rootStage.setScene(scene);
-
+        root.setId("pane");
         // Create the main menu components
         Label gameTitle = new Label("Pacbubu");
         gameTitle.setStyle("-fx-font-size: 200px ");
@@ -129,6 +129,8 @@ public class SceneController {
         root.setAlignment(Pos.CENTER);
 
         rootStage.setScene(scene);
+
+        root.setId("pane2");
 
         Label gameOverLabel = new Label("Game Over");
         gameOverLabel.setStyle("-fx-font-size: 200px ");

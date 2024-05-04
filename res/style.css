@@ -33,6 +33,13 @@
 
 }
 
+#pane2{
+    -fx-background-color: black;
+    -fx-background-size: 1520 890;
+    -fx-background-position: center center;
+
+}
+
 .button:hover {
         -fx-text-fill: rgba(167, 204, 223, 1);
         -fx-effect: dropshadow(three-pass-box, Midnightblue , 2, 10, 0, 3);
