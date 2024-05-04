@@ -110,6 +110,10 @@ public class GameController {
         }
         spawnItem();
         spawnGhost();
+
+        if (score == Config.WINNING_SCORE) {
+            gameOver();
+        }
     }
 
     public void render(GraphicsContext gc) {
