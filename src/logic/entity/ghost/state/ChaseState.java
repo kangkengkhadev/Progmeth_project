@@ -8,7 +8,7 @@ import logic.fsm.BaseState;
 import util.Config;
 
 public class ChaseState extends BaseState {
-    BaseGhost ghost;
+    private BaseGhost ghost;
 
     public ChaseState(BaseGhost ghost) {
         this.ghost = ghost;

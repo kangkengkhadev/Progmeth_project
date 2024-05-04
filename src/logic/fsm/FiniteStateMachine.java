@@ -21,10 +21,6 @@ public class FiniteStateMachine {
         currentState.onEnter();
     }
 
-    public BaseState getCurrentState() {
-        return currentState;
-    }
-
     public String getCurrentStateName() {
         return currentState.getClass().getSimpleName();
     }
