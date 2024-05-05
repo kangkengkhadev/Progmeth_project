@@ -16,10 +16,10 @@ public abstract class BaseGhost extends Entity {
     private static Image frightenedSprite = new Image(ClassLoader.getSystemResource("FrightenedGhost.png").toString());
     private static Image ghostEyeSprite = new Image(ClassLoader.getSystemResource("GhostEye.png").toString());
     private static Image freezeOverlaySprite = new Image(ClassLoader.getSystemResource("FreezeOverlay.png").toString());
-    protected Vector2D velocity;
-    protected Vector2D target;
+    private Vector2D velocity;
+    private Vector2D target;
     private double speed;
-    protected FiniteStateMachine fsm;
+    private FiniteStateMachine fsm;
 
     public BaseGhost(double x, double y, double width, double height, double speed, String imgPath) {
         super(x, y, width, height);
