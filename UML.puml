@@ -1,23 +1,27 @@
 @startuml
 class logic.entity.ghost.state.RespawnState {
 - BaseGhost ghost
++ <<Create>> RespawnState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 abstract class logic.entity.item.BaseItem {
 - Image sprite
++ <<Create>> BaseItem(double,double,double,double,String)
 + int getZIndex()
 + void draw(GraphicsContext)
 + {abstract}void useEffect()
 }
 class logic.entity.ghost.state.FreezeState {
 - BaseGhost ghost
++ <<Create>> FreezeState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.item.Cloak {
++ <<Create>> Cloak(double,double,double,double)
 + void useEffect()
 }
 class render.SceneController {
@@ -26,6 +30,7 @@ class render.SceneController {
 - long startTime
 - double accumulateFps
 - {static} AudioPlayer gameOverAudio
++ <<Create>> SceneController(Stage)
 + {static} SceneController getInstance()
 + void showMainMenu()
 + void showGamePanel()
@@ -33,16 +38,20 @@ class render.SceneController {
 }
 class logic.entity.ghost.state.ChaseState {
 - BaseGhost ghost
++ <<Create>> ChaseState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.ghost.SwiftGhost {
++ <<Create>> SwiftGhost(double,double,double,double,double)
 # double getSpeedMultiplier()
 }
 class logic.Vector2D {
 - double x
 - double y
++ <<Create>> Vector2D(double,double)
++ <<Create>> Vector2D(Vector2D)
 + double getLength()
 + Vector2D add(Vector2D)
 + Vector2D subtract(Vector2D)
@@ -55,12 +64,14 @@ class logic.Vector2D {
 + boolean equals(Object)
 }
 class logic.entity.ghost.TankGhost {
++ <<Create>> TankGhost(double,double,double,double,double)
 + void attack()
 }
 class logic.fsm.FiniteStateMachine {
 - BaseState initialState
 - BaseState currentState
 - String currentStateName
++ <<Create>> FiniteStateMachine(BaseState)
 + void update(double)
 + void changeState(BaseState)
 + String getCurrentStateName()
@@ -77,6 +88,7 @@ class logic.entity.Pacman {
 - Vector2D nextVelocity
 - int health
 - PacmanState state
++ <<Create>> Pacman(double,double,double,double)
 + int getZIndex()
 + void draw(GraphicsContext)
 - void getInput()
@@ -108,6 +120,7 @@ abstract class logic.entity.Entity {
 # boolean destroyed
 # double width
 # double height
++ <<Create>> Entity(double,double,double,double)
 + void destroy()
 + boolean isDestroyed()
 + Vector2D getPosition()
@@ -121,6 +134,7 @@ abstract class logic.entity.Entity {
 }
 class logic.entity.ghost.state.ScatterState {
 - BaseGhost ghost
++ <<Create>> ScatterState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
@@ -160,6 +174,7 @@ class logic.GameController {
 + boolean isGameOver()
 }
 class logic.entity.ghost.ScaffGhost {
++ <<Create>> ScaffGhost(double,double,double,double,double)
 + void startFreeze()
 }
 class util.Config {
@@ -220,12 +235,14 @@ class util.Config {
 }
 class logic.entity.ghost.state.SpawnState {
 - BaseGhost ghost
++ <<Create>> SpawnState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.ghost.state.FrightenState {
 - BaseGhost ghost
++ <<Create>> FrightenState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
@@ -243,6 +260,7 @@ class logic.TileMap {
 - {static} Image wallTerminalSprite
 - boolean destroyed
 - Map map
++ <<Create>> TileMap(Map)
 + void draw(GraphicsContext)
 + int getZIndex()
 + boolean isDestroyed()
@@ -251,16 +269,20 @@ class render.GamePanel {
 - double unitWidth
 - double xPadding
 - double yPadding
++ <<Create>> GamePanel(double,double)
 - void addEventListener()
 + double getUnitWidth()
 + double getXPadding()
 + double getYPadding()
 }
 class logic.entity.ghost.OrangeGhost {
++ <<Create>> OrangeGhost(double,double,double,double,double)
 }
 class logic.entity.ghost.YellowGhost {
++ <<Create>> YellowGhost(double,double,double,double,double)
 }
 class logic.entity.item.FreezePotion {
++ <<Create>> FreezePotion(double,double,double,double)
 + void useEffect()
 }
 class logic.Map {
@@ -268,6 +290,7 @@ class logic.Map {
 - int[][] mapItemsInfo
 - int row
 - int col
++ <<Create>> Map(int,int)
 + boolean isWall(double,double)
 + int[][] getMapItemsInfo()
 + void setMapItemsInfo(double,double,int)
@@ -280,10 +303,11 @@ abstract class logic.entity.ghost.BaseGhost {
 - {static} Image frightenedSprite
 - {static} Image ghostEyeSprite
 - {static} Image freezeOverlaySprite
-# Vector2D velocity
-# Vector2D target
+- Vector2D velocity
+- Vector2D target
 - double speed
-# FiniteStateMachine fsm
+- FiniteStateMachine fsm
++ <<Create>> BaseGhost(double,double,double,double,double,String)
 + void startFreeze()
 + void startFrighten()
 + int getZIndex()
@@ -298,6 +322,7 @@ abstract class logic.entity.ghost.BaseGhost {
 + void attack()
 }
 class logic.entity.ghost.GreenGhost {
++ <<Create>> GreenGhost(double,double,double,double,double)
 }
 interface render.Renderable {
 ~ int getZIndex()
@@ -308,6 +333,7 @@ class logic.AudioPlayer {
 - MediaPlayer mediaPlayer
 - Media audio
 - boolean replay
++ <<Create>> AudioPlayer(String,boolean)
 + void playAudio()
 + void stopAudio()
 }
