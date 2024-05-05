@@ -1,27 +1,23 @@
 @startuml
 class logic.entity.ghost.state.RespawnState {
 - BaseGhost ghost
-+ <<Create>> RespawnState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 abstract class logic.entity.item.BaseItem {
 - Image sprite
-+ <<Create>> BaseItem(double,double,double,double,String)
 + int getZIndex()
 + void draw(GraphicsContext)
-+ void useEffect()
++ {abstract}void useEffect()
 }
 class logic.entity.ghost.state.FreezeState {
 - BaseGhost ghost
-+ <<Create>> FreezeState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.item.Cloak {
-+ <<Create>> Cloak(double,double,double,double)
 + void useEffect()
 }
 class render.SceneController {
@@ -30,28 +26,23 @@ class render.SceneController {
 - long startTime
 - double accumulateFps
 - {static} AudioPlayer gameOverAudio
-+ <<Create>> SceneController(Stage)
 + {static} SceneController getInstance()
-+ void transitionToMainMenu()
-+ void transitionToGamePanel()
-+ void transitionToGameOver()
++ void showMainMenu()
++ void showGamePanel()
++ void showGameOver()
 }
 class logic.entity.ghost.state.ChaseState {
-~ BaseGhost ghost
-+ <<Create>> ChaseState(BaseGhost)
+- BaseGhost ghost
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.ghost.SwiftGhost {
-+ <<Create>> SwiftGhost(double,double,double,double,double,String)
 # double getSpeedMultiplier()
 }
 class logic.Vector2D {
 - double x
 - double y
-+ <<Create>> Vector2D(double,double)
-+ <<Create>> Vector2D(Vector2D)
 + double getLength()
 + Vector2D add(Vector2D)
 + Vector2D subtract(Vector2D)
@@ -64,17 +55,14 @@ class logic.Vector2D {
 + boolean equals(Object)
 }
 class logic.entity.ghost.TankGhost {
-+ <<Create>> TankGhost(double,double,double,double,double,String)
 + void attack()
 }
 class logic.fsm.FiniteStateMachine {
 - BaseState initialState
 - BaseState currentState
 - String currentStateName
-+ <<Create>> FiniteStateMachine(BaseState)
 + void update(double)
 + void changeState(BaseState)
-+ BaseState getCurrentState()
 + String getCurrentStateName()
 }
 class logic.entity.Pacman {
@@ -89,7 +77,6 @@ class logic.entity.Pacman {
 - Vector2D nextVelocity
 - int health
 - PacmanState state
-+ <<Create>> Pacman(double,double,double,double)
 + int getZIndex()
 + void draw(GraphicsContext)
 - void getInput()
@@ -100,6 +87,11 @@ class logic.entity.Pacman {
 - void move(double)
 + Vector2D getVelocity()
 + void takeDamage(int)
+}
+class util.InputUtility {
+- {static} ArrayList<KeyCode> keyPressed
++ {static} boolean getKeyPressed(KeyCode)
++ {static} void setKeyPressed(KeyCode,boolean)
 }
 enum logic.Direction {
 +  UP
@@ -116,7 +108,6 @@ abstract class logic.entity.Entity {
 # boolean destroyed
 # double width
 # double height
-+ <<Create>> Entity(double,double,double,double)
 + void destroy()
 + boolean isDestroyed()
 + Vector2D getPosition()
@@ -129,8 +120,7 @@ abstract class logic.entity.Entity {
 + void setHeight(double)
 }
 class logic.entity.ghost.state.ScatterState {
-~ BaseGhost ghost
-+ <<Create>> ScatterState(BaseGhost)
+- BaseGhost ghost
 + void update(double)
 + void onEnter()
 + void onExit()
@@ -170,19 +160,72 @@ class logic.GameController {
 + boolean isGameOver()
 }
 class logic.entity.ghost.ScaffGhost {
-+ <<Create>> ScaffGhost(double,double,double,double,double,String)
 + void startFreeze()
+}
+class util.Config {
++ {static} int MAP_X_DIMENSION
++ {static} int MAP_Y_DIMENSION
++ {static} double PACMAN_SPEED
++ {static} double PACMAN_INVINCIBLE_SPEED_MULTIPLIER
++ {static} int PACMAN_X_ORIGIN
++ {static} int PACMAN_Y_ORIGIN
++ {static} int PACMAN_Z_INDEX
++ {static} double PACMAN_COLLISION_RADIUS
++ {static} int PACMAN_MAX_HEALTH
++ {static} int PACMAN_HURT_INVINCIBILITY_DURATION
++ {static} int FPS_CAP
++ {static} int TILE_MAP_Z_INDEX
++ {static} double MOVEMENT_OFFSET_THRESHOLD
++ {static} int GHOST_X_ORIGIN
++ {static} int GHOST_Y_ORIGIN
++ {static} double GHOST_FRIGHTENED_SPEED_MULTIPLIER
++ {static} double GHOST_RESPAWN_MOVEMENT_OFFSET_MULTIPLIER
++ {static} double GHOST_RESPAWN_SPEED_MULTIPLIER
++ {static} double GHOST_FREEZE_SPEED_MULTIPLIER
++ {static} int GHOST_FRIGHTENED_DURATION
++ {static} int GHOST_FREEZE_DURATION
++ {static} int INVINCIBILITY_DURATION
++ {static} double NORMAL_GHOST_SPEED
++ {static} int GHOST_Z_INDEX
++ {static} int YELLOW_GHOST_X_ORIGIN
++ {static} int YELLOW_GHOST_Y_ORIGIN
++ {static} int YELLOW_GHOST_CHASE_DURATION
++ {static} int YELLOW_GHOST_SCATTER_DURATION
++ {static} int ORANGE_GHOST_CHASE_DURATION
++ {static} int ORANGE_GHOST_SCATTER_DURATION
++ {static} int ORANGE_GHOST_X_ORIGIN
++ {static} int ORANGE_GHOST_Y_ORIGIN
++ {static} int GREEN_GHOST_CHASE_DURATION
++ {static} int GREEN_GHOST_SCATTER_DURATION
++ {static} int GREEN_GHOST_X_ORIGIN
++ {static} int GREEN_GHOST_Y_ORIGIN
++ {static} int SCAFF_GHOST_CHASE_DURATION
++ {static} int SCAFF_GHOST_SCATTER_DURATION
++ {static} int SCAFF_GHOST_X_ORIGIN
++ {static} int SCAFF_GHOST_Y_ORIGIN
++ {static} int TANK_GHOST_CHASE_DURATION
++ {static} int TANK_GHOST_SCATTER_DURATION
++ {static} int TANK_GHOST_X_ORIGIN
++ {static} int TANK_GHOST_Y_ORIGIN
++ {static} double SWIFT_GHOST_SPEED_MULTIPLIER
++ {static} int SWIFT_GHOST_CHASE_DURATION
++ {static} int SWIFT_GHOST_SCATTER_DURATION
++ {static} int SWIFT_GHOST_X_ORIGIN
++ {static} int SWIFT_GHOST_Y_ORIGIN
++ {static} int ITEM_Z_INDEX
++ {static} double SMALL_CIRCLE_CIRCUMSTANCE
++ {static} double BIG_CIRCLE_CIRCUMSTANCE
++ {static} int NEXT_PHRASE_AMOUNT_THRESHOLD
++ {static} int WINNING_SCORE
 }
 class logic.entity.ghost.state.SpawnState {
 - BaseGhost ghost
-+ <<Create>> SpawnState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
 }
 class logic.entity.ghost.state.FrightenState {
 - BaseGhost ghost
-+ <<Create>> FrightenState(BaseGhost)
 + void update(double)
 + void onEnter()
 + void onExit()
@@ -200,7 +243,6 @@ class logic.TileMap {
 - {static} Image wallTerminalSprite
 - boolean destroyed
 - Map map
-+ <<Create>> TileMap(Map)
 + void draw(GraphicsContext)
 + int getZIndex()
 + boolean isDestroyed()
@@ -209,20 +251,16 @@ class render.GamePanel {
 - double unitWidth
 - double xPadding
 - double yPadding
-+ <<Create>> GamePanel(double,double)
 - void addEventListener()
 + double getUnitWidth()
 + double getXPadding()
 + double getYPadding()
 }
 class logic.entity.ghost.OrangeGhost {
-+ <<Create>> OrangeGhost(double,double,double,double,double,String)
 }
 class logic.entity.ghost.YellowGhost {
-+ <<Create>> YellowGhost(double,double,double,double,double,String)
 }
 class logic.entity.item.FreezePotion {
-+ <<Create>> FreezePotion(double,double,double,double)
 + void useEffect()
 }
 class logic.Map {
@@ -230,7 +268,6 @@ class logic.Map {
 - int[][] mapItemsInfo
 - int row
 - int col
-+ <<Create>> Map(int,int)
 + boolean isWall(double,double)
 + int[][] getMapItemsInfo()
 + void setMapItemsInfo(double,double,int)
@@ -247,7 +284,6 @@ abstract class logic.entity.ghost.BaseGhost {
 # Vector2D target
 - double speed
 # FiniteStateMachine fsm
-+ <<Create>> BaseGhost(double,double,double,double,double,String)
 + void startFreeze()
 + void startFrighten()
 + int getZIndex()
@@ -262,7 +298,6 @@ abstract class logic.entity.ghost.BaseGhost {
 + void attack()
 }
 class logic.entity.ghost.GreenGhost {
-+ <<Create>> GreenGhost(double,double,double,double,double,String)
 }
 interface render.Renderable {
 ~ int getZIndex()
@@ -273,7 +308,6 @@ class logic.AudioPlayer {
 - MediaPlayer mediaPlayer
 - Media audio
 - boolean replay
-+ <<Create>> AudioPlayer(String,boolean)
 + void playAudio()
 + void stopAudio()
 }
