@@ -9,7 +9,7 @@ public class SwiftGhost extends BaseGhost {
 
     @Override
     protected double getSpeedMultiplier() {
-        if (fsm.getCurrentStateName().equals("FrightenedState") || fsm.getCurrentStateName().equals("RespawnState") || fsm.getCurrentStateName().equals("FreezeState")) {
+        if (getFsm().getCurrentStateName().equals("FrightenedState") || getFsm().getCurrentStateName().equals("RespawnState") || getFsm().getCurrentStateName().equals("FreezeState")) {
             return super.getSpeedMultiplier();
         }
         return Config.SWIFT_GHOST_SPEED_MULTIPLIER;
