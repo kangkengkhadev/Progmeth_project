@@ -16,8 +16,8 @@ import util.Config;
 import util.InputUtility;
 
 public class Pacman extends Entity {
-    private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.png").toString());
-    private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.png").toString());
+    private static Image spriteNormal = new Image(ClassLoader.getSystemResource("Pacman.PNG").toString());
+    private static Image spriteInvincible = new Image(ClassLoader.getSystemResource("Pacman_Invincible.PNG").toString());
     private static Image spriteHeart = new Image(ClassLoader.getSystemResource("Heart.png").toString());
     private static AudioPlayer frightenedGhostAudio = new AudioPlayer("FrightenedGhostAudio.mp3", true);
     private static AudioPlayer collectedCoinAudio = new AudioPlayer("CollectedCoinAudio.mp3", false);

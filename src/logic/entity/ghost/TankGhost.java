@@ -5,7 +5,7 @@ import logic.entity.Pacman;
 
 public class TankGhost extends BaseGhost {
     public TankGhost(double x, double y, double width, double height, double speed) {
-        super(x, y, width, height, speed, "TankGhost.png");
+        super(x, y, width, height, speed, "TankGhost.PNG");
     }
 
     @Override
